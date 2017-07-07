@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Description>The interfaces of MowaInfo Protocol Buffer Socket</Description>
+    <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
+    <PackageLicenseUrl>https://choosealicense.com/licenses/gpl-3.0</PackageLicenseUrl>
+    <Version>0.1.0</Version>
+    <Authors>PM Extra</Authors>
+    <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
+    <Product>MowaInfo.ProtoSocket</Product>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>

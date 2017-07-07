@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{735FD936-62C6-4A6A-87D1-EA874A82ECD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Abstract", "src\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj", "{D3823A49-D9E6-4797-93E4-049A62D55CD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Client", "src\MowaInfo.ProtoSocket.Client\MowaInfo.ProtoSocket.Client.csproj", "{E4C827E5-6912-4804-8EE9-0913C25F66BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Server", "src\MowaInfo.ProtoSocket.Server\MowaInfo.ProtoSocket.Server.csproj", "{55E803EC-4369-4986-8594-EC0107B59470}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3823A49-D9E6-4797-93E4-049A62D55CD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3823A49-D9E6-4797-93E4-049A62D55CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3823A49-D9E6-4797-93E4-049A62D55CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3823A49-D9E6-4797-93E4-049A62D55CD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C827E5-6912-4804-8EE9-0913C25F66BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C827E5-6912-4804-8EE9-0913C25F66BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C827E5-6912-4804-8EE9-0913C25F66BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C827E5-6912-4804-8EE9-0913C25F66BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E803EC-4369-4986-8594-EC0107B59470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E803EC-4369-4986-8594-EC0107B59470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E803EC-4369-4986-8594-EC0107B59470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E803EC-4369-4986-8594-EC0107B59470}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D3823A49-D9E6-4797-93E4-049A62D55CD5} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
+		{E4C827E5-6912-4804-8EE9-0913C25F66BE} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
+		{55E803EC-4369-4986-8594-EC0107B59470} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
+	EndGlobalSection
+EndGlobal
