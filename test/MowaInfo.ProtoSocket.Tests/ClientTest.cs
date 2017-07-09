@@ -14,12 +14,7 @@ namespace MowaInfo.ProtoSocket.ClientTests
     {
         public bool Equals(MessageContainer x, MessageContainer y)
         {
-            //!((x.ReplyId == null && y.ReplyId != null) || (y.ReplyId == null && x.ReplyId != null) || x.ReplyId != y.ReplyId)
-            if (x.Type == y.Type && x.Id == y.Id && x.ReplyId == y.ReplyId && y.MessageContent == x.MessageContent)
-            {
-                return true;
-            }
-            return false;
+            return x.Type == y.Type && x.Id == y.Id && x.ReplyId == y.ReplyId && y.MessageContent == x.MessageContent;
         }
 
         public int GetHashCode(MessageContainer obj)
@@ -34,7 +29,8 @@ namespace MowaInfo.ProtoSocket.ClientTests
         {
             Id = 1,
             ReplyId = 2,
-            MessageContent = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            MessageContent =
+                "aassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa",
             Type = MessageEnum.Success
         };
 
@@ -43,7 +39,7 @@ namespace MowaInfo.ProtoSocket.ClientTests
         private int _rest;
         private byte[] _bytes;
 
-        private byte[] GetBytes(MessageContainer msg)
+        private static byte[] GetBytes(MessageContainer msg)
         {
             using (var stream = new MemoryStream())
             {
@@ -86,13 +82,14 @@ namespace MowaInfo.ProtoSocket.ClientTests
         public void Split()
         {
             _bytes = GetBytes(_msg);
-            var y = new ArraySegment<byte>(new[] { _bytes[0] });
-            var x = new BufferList { y };
+            var bytes = new byte[4096];
+            bytes[0] = _bytes[0];
+            var x = new BufferList { new ArraySegment<byte>(bytes, 0, 1) };
             var count = _bytes.Length;
             var r = _receiveFilter.Filter(x, out _rest);
             Assert.Equal(r, null);
             Assert.Equal(_rest, 0);
-            var a = new byte[38];
+            var a = new byte[count - 1];
             Array.Copy(_bytes, 1, a, 0, count - 1);
             x.Add(new ArraySegment<byte>(a));
             r = _receiveFilter.Filter(x, out _rest);

@@ -13,11 +13,7 @@ namespace MowaInfo.ProtoSocket.ServerTests
     {
         public bool Equals(MessageContainer x, MessageContainer y)
         {
-            if (x.Type == y.Type && x.Id == y.Id && x.ReplyId == y.ReplyId && y.MessageContent == x.MessageContent)
-            {
-                return true;
-            }
-            return false;
+            return x.Type == y.Type && x.Id == y.Id && x.ReplyId == y.ReplyId && y.MessageContent == x.MessageContent;
         }
 
         public int GetHashCode(MessageContainer obj)
@@ -41,7 +37,7 @@ namespace MowaInfo.ProtoSocket.ServerTests
         private int _rest;
         private byte[] _bytes;
 
-        private byte[] GetBytes(MessageContainer msg)
+        private static byte[] GetBytes(MessageContainer msg)
         {
             using (var stream = new MemoryStream())
             {
