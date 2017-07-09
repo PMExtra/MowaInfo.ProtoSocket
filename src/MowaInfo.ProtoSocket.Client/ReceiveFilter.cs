@@ -22,7 +22,7 @@ namespace MowaInfo.ProtoSocket.Client
             var stream = this.GetBufferStream(data);
 
             stream.Initialize(data);
-            if (!Serializer.TryReadLengthPrefix(stream, PrefixStyle.Base128, out int size))
+            if (!Serializer.TryReadLengthPrefix(stream, PrefixStyle.Base128, out var size))
             {
                 return null;
             }
