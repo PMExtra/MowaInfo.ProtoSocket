@@ -3,14 +3,16 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Description>The interfaces of MowaInfo Protocol Buffer Socket</Description>
+    <Description>The interfaces of MowaInfo Protocol Buffer Socket. It's a partial of MowaInfo.ProtoSocket.</Description>
     <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
     <PackageLicenseUrl>https://choosealicense.com/licenses/gpl-3.0</PackageLicenseUrl>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>PM Extra</Authors>
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</RepositoryUrl>
+    <PackageTags>MowaInfo socket protobuf</PackageTags>
   </PropertyGroup>
 
 </Project>
