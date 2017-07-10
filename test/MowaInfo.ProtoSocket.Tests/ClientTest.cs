@@ -53,13 +53,17 @@ namespace MowaInfo.ProtoSocket.ClientTests
         public void Combine()
         {
             _bytes = GetBytes(_msg);
-            var y = new ArraySegment<byte>(_bytes);
-            var x = new BufferList { y, y };
+            var byte1 = new byte[2 * _bytes.Length];
+            _bytes.CopyTo(byte1, 0);
+            _bytes.CopyTo(byte1, _bytes.Length);
+            var y = new ArraySegment<byte>(byte1);
+            var x = new BufferList { y };
             var count = x.Total;
             var r = _receiveFilter.Filter(x, out _rest);
             Assert.Equal(r.Body, _msg, _compare);
             Assert.NotEqual(_rest, count);
-            var z = new BufferList { x.Last };
+            var a = new ArraySegment<byte>(y.Array, y.Offset + y.Count - _rest, _rest);
+            var z = new BufferList { a };
             r = _receiveFilter.Filter(z, out _rest);
             Assert.Equal(r.Body, _msg, _compare);
             Assert.Equal(_rest, 0);

@@ -21,15 +21,19 @@ namespace MowaInfo.ProtoSocket.Client
 
             var stream = this.GetBufferStream(data);
 
-            if (!TryRead(stream, out int size))
+            int size;
+            try
+            {
+                if (!Serializer.TryReadLengthPrefix(stream, PrefixStyle.Base128, out size))
+                {
+                    return null;
+                }
+            }
+            catch (EndOfStreamException)
             {
                 return null;
             }
-
-            //if (!Serializer.TryReadLengthPrefix(stream, PrefixStyle.Base128, out int size))
-            //{
-            //    return null;
-            //}
+            
 
             var end = stream.Position + size;
             if (end > stream.Length)
