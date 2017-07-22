@@ -33,7 +33,6 @@ namespace MowaInfo.ProtoSocket.Client
             {
                 return null;
             }
-            
 
             var end = stream.Position + size;
             if (end > stream.Length)
@@ -55,28 +54,6 @@ namespace MowaInfo.ProtoSocket.Client
 
         public virtual void Reset()
         {
-        }
-
-        private static bool TryRead(Stream stream, out int size)
-        {
-            size = 0;
-            var byte1 = stream.ReadByte();
-            var count = 0;
-            while (byte1 != -1)
-            {
-                size |= (byte1 & 0x7F) << count;
-                count += 7;
-                if ((byte1 & 0x80) == 0)
-                {
-                    return true;
-                }
-                if (stream.Length - stream.Position < 1)
-                {
-                    return false;
-                }
-                byte1 = stream.ReadByte();
-            }
-            return false;
         }
     }
 }

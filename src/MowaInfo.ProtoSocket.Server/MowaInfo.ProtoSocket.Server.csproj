@@ -3,18 +3,20 @@
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Description>The server library of MowaInfo Protocol Buffer Socket</Description>
+    <Description>The server library of MowaInfo Protocol Buffer Socket. It's a partial of MowaInfo.ProtoSocket.</Description>
     <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
     <PackageLicenseUrl>https://choosealicense.com/licenses/gpl-3.0</PackageLicenseUrl>
     <Authors>PM Extra</Authors>
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
+    <RepositoryUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</RepositoryUrl>
+    <PackageTags>MowaInfo socket protobuf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="protobuf-net" Version="2.2.1" />
+    <PackageReference Include="protobuf-net" Version="2.3.0" />
     <PackageReference Include="SuperSocket" Version="1.6.6.1" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
   </ItemGroup>
