@@ -35,7 +35,16 @@ namespace MowaInfo.ProtoSocket.Server
             Stream.Write(readBuffer, offset, length);
             Stream.Position = 0;
 
-            if (!Serializer.TryReadLengthPrefix(Stream, PrefixStyle.Base128, out var size))
+            int size;
+            try
+            {
+                if (!Serializer.TryReadLengthPrefix(Stream, PrefixStyle.Base128, out size))
+                {
+                    LeftBufferSize += length;
+                    return null;
+                }
+            }
+            catch (EndOfStreamException)
             {
                 LeftBufferSize += length;
                 return null;

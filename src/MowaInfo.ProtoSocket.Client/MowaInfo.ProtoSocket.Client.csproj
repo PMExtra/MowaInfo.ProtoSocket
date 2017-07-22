@@ -6,7 +6,7 @@
     <Description>The client library of MowaInfo Protocol Buffer Socket. It's a partial of MowaInfo.ProtoSocket.</Description>
     <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
     <PackageLicenseUrl>https://choosealicense.com/licenses/gpl-3.0</PackageLicenseUrl>
-    <Version>0.3.1</Version>
+    <Version>0.4.0</Version>
     <Authors>PM Extra</Authors>
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="protobuf-net" Version="2.2.1" />
+    <PackageReference Include="protobuf-net" Version="2.3.0" />
     <PackageReference Include="SuperSocket.ProtoBase" Version="1.7.0.17" />
   </ItemGroup>
 
