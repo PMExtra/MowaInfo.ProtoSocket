@@ -5,7 +5,7 @@ using System.Reflection;
 using MowaInfo.ProtoSocket.Abstract;
 using ProtoBuf;
 
-namespace MowaInfo.ProtoSocket.ClientTests
+namespace MowaInfo.ProtoSocket.Server.Tests
 {
     [ProtoContract]
     public class MessageContainer : IMessageContainer<MessageEnum>

@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Server
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4379C79F-30BA-4F91-9A26-F699DDB27B0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.ClientTests", "test\MowaInfo.ProtoSocket.Tests\MowaInfo.ProtoSocket.ClientTests.csproj", "{7A0279E8-6396-4129-B38F-97126A082D70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.ClientTests", "test\MowaInfo.ProtoSocket.Client.Tests\MowaInfo.ProtoSocket.Client.Tests.csproj", "{7A0279E8-6396-4129-B38F-97126A082D70}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.ServerTests", "test\MowaInfo.ProtoSocket.ServerTests\MowaInfo.ProtoSocket.ServerTests.csproj", "{649D1E8B-4C03-4C00-95F3-58FFF677C233}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.ServerTests", "test\MowaInfo.ProtoSocket.Server.Tests\MowaInfo.ProtoSocket.Server.Tests.csproj", "{649D1E8B-4C03-4C00-95F3-58FFF677C233}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MowaInfo.ProtoSocket.Server;
 using ProtoBuf;
 using Xunit;
 
-namespace MowaInfo.ProtoSocket.ServerTests
+namespace MowaInfo.ProtoSocket.Server.Tests
 {
     using ReceiveFilter = ReceiveFilter<RequestInfo<MessageContainer, MessageEnum>, MessageContainer, MessageEnum>;
 
@@ -46,7 +45,6 @@ namespace MowaInfo.ProtoSocket.ServerTests
             }
         }
 
-        // 组合包
         [Fact]
         public void Combine()
         {
@@ -63,7 +61,6 @@ namespace MowaInfo.ProtoSocket.ServerTests
             Assert.Equal(_rest, 0);
         }
 
-        // 单包
         [Fact]
         public void Single()
         {
@@ -76,7 +73,6 @@ namespace MowaInfo.ProtoSocket.ServerTests
             Assert.Equal(_rest, 0);
         }
 
-        // 拆包
         [Fact]
         public void Split()
         {

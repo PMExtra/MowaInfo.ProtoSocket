@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MowaInfo.ProtoSocket.Client;
 using ProtoBuf;
 using SuperSocket.ProtoBase;
 using Xunit;
 
-namespace MowaInfo.ProtoSocket.ClientTests
+namespace MowaInfo.ProtoSocket.Client.Tests
 {
-    using ReceiveFilter = ReceiveFilter<Client.PackageInfo<MessageContainer, MessageEnum>, MessageContainer, MessageEnum>;
+    using ReceiveFilter = ReceiveFilter<PackageInfo<MessageContainer, MessageEnum>, MessageContainer, MessageEnum>;
 
     public class Compare : IEqualityComparer<MessageContainer>
     {
@@ -48,7 +47,6 @@ namespace MowaInfo.ProtoSocket.ClientTests
             }
         }
 
-        // 组合包
         [Fact]
         public void Combine()
         {
@@ -69,7 +67,6 @@ namespace MowaInfo.ProtoSocket.ClientTests
             Assert.Equal(_rest, 0);
         }
 
-        // 单个包
         [Fact]
         public void Single()
         {
@@ -81,7 +78,6 @@ namespace MowaInfo.ProtoSocket.ClientTests
             Assert.Equal(_rest, 0);
         }
 
-        //分组
         [Fact]
         public void Split()
         {

@@ -1,6 +1,6 @@
 ﻿using ProtoBuf;
 
-namespace MowaInfo.ProtoSocket.ServerTests
+namespace MowaInfo.ProtoSocket.Server.Tests
 {
     [ProtoContract]
     public enum MessageEnum
