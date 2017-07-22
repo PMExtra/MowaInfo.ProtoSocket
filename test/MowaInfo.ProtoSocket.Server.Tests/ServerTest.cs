@@ -27,7 +27,7 @@ namespace MowaInfo.ProtoSocket.Server.Tests
         {
             Id = 1,
             ReplyId = 2,
-            MessageContent = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            MessageContent = new string('a', 30),
             Type = MessageEnum.Success
         };
 

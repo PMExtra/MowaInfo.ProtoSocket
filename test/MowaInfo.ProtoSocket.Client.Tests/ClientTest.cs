@@ -28,8 +28,7 @@ namespace MowaInfo.ProtoSocket.Client.Tests
         {
             Id = 1,
             ReplyId = 2,
-            MessageContent =
-                "aassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa",
+            MessageContent = new string('a', 256),
             Type = MessageEnum.Success
         };
 
