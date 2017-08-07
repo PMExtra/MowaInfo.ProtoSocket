@@ -10,13 +10,13 @@
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.4.0</Version>
+    <Version>0.4.1</Version>
     <RepositoryUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</RepositoryUrl>
     <PackageTags>MowaInfo socket protobuf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="protobuf-net" Version="2.3.0" />
+    <PackageReference Include="protobuf-net" Version="2.3.2" />
     <PackageReference Include="SuperSocket" Version="1.6.6.1" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
   </ItemGroup>
