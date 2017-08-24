@@ -9,6 +9,7 @@ namespace MowaInfo.ProtoSocket.Command
     {
         public CommandSetupHandler(IServiceScope scope)
         {
+            Scope = scope;
             Provider = scope.ServiceProvider;
             Logger = Provider.GetService<ILoggerFactory>().CreateLogger<CommandSetupHandler>();
         }
@@ -16,5 +17,13 @@ namespace MowaInfo.ProtoSocket.Command
         public IServiceProvider Provider { get; }
 
         public ILogger Logger { get; }
+
+        protected IServiceScope Scope { get; }
+
+        public override void ChannelUnregistered(IChannelHandlerContext context)
+        {
+            Scope?.Dispose();
+            base.ChannelUnregistered(context);
+        }
     }
 }
