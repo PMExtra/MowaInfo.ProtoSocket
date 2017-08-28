@@ -3,14 +3,14 @@
     /// <summary>
     ///     Command basic interface
     /// </summary>
-    public interface ICommand<in TContext, in TMessage> : ICommandBase
+    public abstract class CommandBase<TContext, TMessage> : ICommandBase
     {
         /// <summary>
         ///     Gets the name.
         /// </summary>
-        string Name { get; }
+        public static string Name => throw new System.NotImplementedException();
 
-        void ExecuteCommand(TContext context, TMessage message);
+        public abstract void ExecuteCommand(TContext context, TMessage message);
     }
 
     public interface ICommandBase

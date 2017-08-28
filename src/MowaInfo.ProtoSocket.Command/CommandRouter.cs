@@ -21,14 +21,12 @@ namespace MowaInfo.ProtoSocket.Command
         {
             if (_dictionary != null) return;
             _dictionary = new Dictionary<string, Type>();
-            var types = services.Select(descriptor => descriptor.ServiceType).Where(type => typeof(ICommand<IChannelHandlerContext, TContainer>).IsAssignableFrom(type));
-            var provider = services.BuildServiceProvider();
+            var types = services.Select(descriptor => descriptor.ServiceType).Where(type => typeof(CommandBase<IChannelHandlerContext, TContainer>).IsAssignableFrom(type));
+
             foreach (var type in types)
             {
-                if (provider.GetService(type) is ICommand<IChannelHandlerContext, TContainer> command)
-                {
-                    _dictionary.Add(command.Name, type);
-                }
+                var name = (string)type.GetProperty(nameof(CommandBase<IChannelHandlerContext, TContainer>.Name)).GetValue(null);
+                _dictionary.Add(name, type);
             }
         }
 
@@ -43,7 +41,7 @@ namespace MowaInfo.ProtoSocket.Command
                 throw new NoMatchedCommandException(typeName);
             }
 
-            var command = commandSetupHandler.Provider.GetService(type) as ICommand<IChannelHandlerContext, TContainer>;
+            var command = commandSetupHandler.Provider.GetService(type) as CommandBase<IChannelHandlerContext, TContainer>;
             if (command == null)
             {
                 throw new NoMatchedCommandException(typeName);
