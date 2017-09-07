@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace MowaInfo.ProtoSocket.Abstract
+﻿namespace MowaInfo.ProtoSocket.Abstract
 {
-    public interface IMessageContainer<TEnum> where TEnum : struct, IConvertible
+    public interface IMessageContainer
     {
-        uint Id { get; set; }
+        ulong Id { get; }
 
-        uint? ReplyId { get; set; }
+        ulong? ReplyId { get; }
 
-        TEnum Type { get; set; }
+        int MessageType { get; }
     }
 }

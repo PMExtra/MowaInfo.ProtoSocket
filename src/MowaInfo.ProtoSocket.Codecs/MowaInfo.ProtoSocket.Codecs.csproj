@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard1.3;netstandard2.0</TargetFrameworks>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Description>The Dotnetty codecs of MowaInfo Protocol Buffer Socket. It's a partial of MowaInfo.ProtoSocket.</Description>
     <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
     <PackageLicenseUrl>https://choosealicense.com/licenses/gpl-3.0</PackageLicenseUrl>
-    <Version>0.1.1</Version>
+    <Version>0.2.0-alpha</Version>
     <Authors>PM Extra</Authors>
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
@@ -19,10 +19,6 @@
     <PackageReference Include="DotNetty.Codecs" Version="0.4.6" />
     <PackageReference Include="DotNetty.Handlers" Version="0.4.6" />
     <PackageReference Include="protobuf-net" Version="2.3.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj" />
   </ItemGroup>
   
 </Project>

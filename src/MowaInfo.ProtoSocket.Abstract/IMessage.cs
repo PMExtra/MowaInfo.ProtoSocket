@@ -1,11 +1,7 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace MowaInfo.ProtoSocket.Abstract
+﻿namespace MowaInfo.ProtoSocket.Abstract
 {
-    [SuppressMessage("ReSharper", "TypeParameterCanBeVariant")]
-    public interface IMessage<TEnum> where TEnum : struct, IConvertible
+    public interface IMessage
     {
-        TEnum MessageType { get; }
+        int MessageType { get; }
     }
 }
