@@ -2,9 +2,9 @@
 {
     public interface IMessageContainer
     {
-        ulong Id { get; }
+        ulong Id { get; set; }
 
-        ulong? ReplyId { get; }
+        ulong? ReplyId { get; set; }
 
         int MessageType { get; }
     }

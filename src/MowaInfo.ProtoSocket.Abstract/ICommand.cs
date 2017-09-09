@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace MowaInfo.ProtoSocket.Abstract
 {
     [SuppressMessage("ReSharper", "TypeParameterCanBeVariant")]
-    public interface ICommand<TContext, TMessage>
+    public interface ICommand<TMessage>
         where TMessage : IMessage
     {
-        Task ExecuteCommandAsync(TContext context, TMessage message);
+        Task ExecuteCommandAsync(TMessage message);
     }
 }

@@ -2,31 +2,48 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket.Command
+#if NETSTANDARD1_3
+using System.Reflection;
+#endif
+
+namespace MowaInfo.ProtoSocket
 {
-    public class CommandRouter<TContainer, TEnum> : SimpleChannelInboundHandler<TContainer>
-        where TEnum : struct, IConvertible
-        where TContainer : class, IMessageContainer<TEnum>, new()
+    public class CommandRouter<TContainer> : SimpleChannelInboundHandler<TContainer>
+        where TContainer : class, IMessageContainer, new()
     {
         // ReSharper disable once StaticMemberInGenericType
-        private static Dictionary<string, Type> _dictionary;
+        private static Dictionary<Type, List<Type>> _commands;
 
         public CommandRouter(IServiceCollection services)
         {
-            if (_dictionary != null) return;
-            _dictionary = new Dictionary<string, Type>();
-            var types = services.Select(descriptor => descriptor.ServiceType).Where(type => typeof(CommandBase<IChannelHandlerContext, TContainer>).IsAssignableFrom(type));
+            if (_commands != null) return;
+            _commands = new Dictionary<Type, List<Type>>();
+            var types = services
+                .Select(descriptor => descriptor.ServiceType);
 
             foreach (var type in types)
             {
-                var name = (string)type.GetProperty(nameof(CommandBase<IChannelHandlerContext, TContainer>.Name)).GetValue(null);
-                _dictionary.Add(name, type);
+#if NETSTANDARD1_3
+                var interfaces = type.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>));
+#else
+                var interfaces = type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>));
+#endif
+                foreach (var @interface in interfaces)
+                {
+                    var messageType = @interface.GenericTypeArguments.Single();
+                    _commands.TryGetValue(messageType, out var list);
+                    if (list == null)
+                    {
+                        list = new List<Type>();
+                        _commands[messageType] = list;
+                    }
+                    list.Add(type);
+                }
             }
         }
 
@@ -34,19 +51,22 @@ namespace MowaInfo.ProtoSocket.Command
         {
             var commandSetupHandler = context.Channel.Pipeline.Get<CommandSetupHandler>();
 
-            var typeName = message.Type.ToString(CultureInfo.InvariantCulture);
-            var type = _dictionary[typeName];
-            if (type == null)
+            var commands = _commands[message.GetType()];
+            if (commands == null)
             {
                 throw new NoMatchedCommandException(typeName);
             }
 
-            var command = commandSetupHandler.Provider.GetService(type) as CommandBase<IChannelHandlerContext, TContainer>;
-            if (command == null)
+            foreach (var commandType in commands)
             {
-                throw new NoMatchedCommandException(typeName);
+                var command = commandSetupHandler.Provider.GetService(commandType);
+                if (command == null)
+                {
+                    throw new NotImplementedException();
+                }
+
             }
-            var attributes = type.GetTypeInfo().GetCustomAttributes<CommandFilterAttribute>().OrderBy(attribute => attribute.Order);
+            var attributes = commands.GetTypeInfo().GetCustomAttributes<CommandFilterAttribute>().OrderBy(attribute => attribute.Order);
             var commandContext = new CommandExecutingContext(context, message, command);
             foreach (var attribute in attributes)
             {

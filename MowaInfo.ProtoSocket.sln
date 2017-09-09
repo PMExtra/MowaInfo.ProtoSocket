@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4379C79F-30BA-4F91-9A26-F699DDB27B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Codecs.Tests", "test\MowaInfo.ProtoSocket.Codecs.Tests\MowaInfo.ProtoSocket.Codecs.Tests.csproj", "{91575466-9160-410E-A938-79D7B5DE55E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Codecs.Tests", "test\MowaInfo.ProtoSocket.Codecs.Tests\MowaInfo.ProtoSocket.Codecs.Tests.csproj", "{91575466-9160-410E-A938-79D7B5DE55E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Tests", "test\MowaInfo.ProtoSocket.Tests\MowaInfo.ProtoSocket.Tests.csproj", "{03270C77-500E-4E3A-BB7A-63A9643A01BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,8 @@ Global
 		{55E803EC-4369-4986-8594-EC0107B59470}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91575466-9160-410E-A938-79D7B5DE55E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91575466-9160-410E-A938-79D7B5DE55E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03270C77-500E-4E3A-BB7A-63A9643A01BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03270C77-500E-4E3A-BB7A-63A9643A01BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +48,7 @@ Global
 		{E4C827E5-6912-4804-8EE9-0913C25F66BE} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
 		{55E803EC-4369-4986-8594-EC0107B59470} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
 		{91575466-9160-410E-A938-79D7B5DE55E0} = {4379C79F-30BA-4F91-9A26-F699DDB27B0D}
+		{03270C77-500E-4E3A-BB7A-63A9643A01BD} = {4379C79F-30BA-4F91-9A26-F699DDB27B0D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {679B5D20-D9DE-4034-B400-A9C586E6D5A2}

@@ -2,6 +2,5 @@
 {
     public interface IMessage
     {
-        int MessageType { get; }
     }
 }

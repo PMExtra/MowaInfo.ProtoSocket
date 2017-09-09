@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <TargetFrameworks>net45;net461;netstandard1.3;netstandard2.0</TargetFrameworks>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Description>The command and router of MowaInfo Protocol Buffer Socket. It's a partial of MowaInfo.ProtoSocket.</Description>
     <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
@@ -14,12 +14,27 @@
     <RepositoryUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</RepositoryUrl>
     <PackageTags>MowaInfo socket protobuf</PackageTags>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="DotNetty.Handlers" Version="0.4.6" />
+
+  <ItemGroup Condition="$(TargetFramework) == 'net45'">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
   </ItemGroup>
-  
+
+  <ItemGroup Condition="$(TargetFramework) == 'net461'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework) == 'netstandard1.3'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Handlers" Version="0.4.6" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj" />
   </ItemGroup>
