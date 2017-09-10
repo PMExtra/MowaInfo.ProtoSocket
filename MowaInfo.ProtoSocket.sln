@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Abstra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Codecs", "src\MowaInfo.ProtoSocket.Codecs\MowaInfo.ProtoSocket.Codecs.csproj", "{E4C827E5-6912-4804-8EE9-0913C25F66BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Commands", "src\MowaInfo.ProtoSocket.Commands\MowaInfo.ProtoSocket.Commands.csproj", "{55E803EC-4369-4986-8594-EC0107B59470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Router", "src\MowaInfo.ProtoSocket.Router\MowaInfo.ProtoSocket.Router.csproj", "{55E803EC-4369-4986-8594-EC0107B59470}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4379C79F-30BA-4F91-9A26-F699DDB27B0D}"
 EndProject

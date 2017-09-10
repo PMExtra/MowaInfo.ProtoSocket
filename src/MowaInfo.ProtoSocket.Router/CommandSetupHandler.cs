@@ -3,7 +3,7 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace MowaInfo.ProtoSocket.Commands
+namespace MowaInfo.ProtoSocket.Router
 {
     public class CommandSetupHandler : ChannelHandlerAdapter
     {

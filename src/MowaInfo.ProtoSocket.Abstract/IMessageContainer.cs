@@ -19,6 +19,12 @@ namespace MowaInfo.ProtoSocket.Abstract
 
     public static class MessageContainerDefault
     {
+        public static object GetMessage(this IMessageContainer container)
+        {
+            var messageClass = container.ClassOfMessageType(container.MessageType);
+            return MessageOfClass(container, messageClass);
+        }
+
         public static T MessageOfClass<T>(this IMessageContainer container) where T : IMessage
         {
             return (T)MessageOfClass(container, typeof(T));

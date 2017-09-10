@@ -3,10 +3,16 @@ using System.Threading.Tasks;
 
 namespace MowaInfo.ProtoSocket.Abstract
 {
-    [SuppressMessage("ReSharper", "TypeParameterCanBeVariant")]
-    public interface ICommand<TMessage>
+    public interface ICommand<TMessage> : ICommand<ICommandContext, TMessage>
         where TMessage : IMessage
     {
-        Task ExecuteAsync(TMessage message);
+    }
+
+    [SuppressMessage("ReSharper", "TypeParameterCanBeVariant")]
+    public interface ICommand<TContext, TMessage>
+        where TContext : ICommandContext
+        where TMessage : IMessage
+    {
+        Task ExecuteAsync(TContext context, TMessage message);
     }
 }
