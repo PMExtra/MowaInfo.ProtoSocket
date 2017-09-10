@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MowaInfo.ProtoSocket
+namespace MowaInfo.ProtoSocket.Commands
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public abstract class CommandFilterAttribute : Attribute

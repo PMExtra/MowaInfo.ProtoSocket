@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket
+namespace MowaInfo.ProtoSocket.Commands
 {
     public static class ServiceCollectionExtensions
     {

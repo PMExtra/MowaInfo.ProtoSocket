@@ -2,7 +2,7 @@
 using DotNetty.Common.Concurrency;
 using DotNetty.Transport.Channels;
 
-namespace MowaInfo.ProtoSocket
+namespace MowaInfo.ProtoSocket.Commands
 {
     public class CommandExecutingContext
     {

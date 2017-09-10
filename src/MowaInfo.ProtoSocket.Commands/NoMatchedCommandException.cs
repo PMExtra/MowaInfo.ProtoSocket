@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MowaInfo.ProtoSocket
+namespace MowaInfo.ProtoSocket.Commands
 {
     public class NoMatchedCommandException : Exception
     {

@@ -7,6 +7,6 @@ namespace MowaInfo.ProtoSocket.Abstract
     public interface ICommand<TMessage>
         where TMessage : IMessage
     {
-        Task ExecuteCommandAsync(TMessage message);
+        Task ExecuteAsync(TMessage message);
     }
 }
