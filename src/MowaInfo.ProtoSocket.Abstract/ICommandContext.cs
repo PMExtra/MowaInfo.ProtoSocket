@@ -14,5 +14,6 @@ namespace MowaInfo.ProtoSocket.Abstract
         IServiceProvider RequestServices { get; set; }
         CancellationToken RequestAborted { get; set; }
         void Abort();
+        void Reply(IMessage message);
     }
 }
