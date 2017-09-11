@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Codecs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Tests", "test\MowaInfo.ProtoSocket.Tests\MowaInfo.ProtoSocket.Tests.csproj", "{03270C77-500E-4E3A-BB7A-63A9643A01BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket", "src\MowaInfo.ProtoSocket\MowaInfo.ProtoSocket.csproj", "{81C38655-D189-4FE2-853A-387EFAD17581}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket", "src\MowaInfo.ProtoSocket\MowaInfo.ProtoSocket.csproj", "{81C38655-D189-4FE2-853A-387EFAD17581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Configuration", "src\MowaInfo.ProtoSocket.Configuration\MowaInfo.ProtoSocket.Configuration.csproj", "{5148F32B-B6E7-4CEF-A56A-E7B729037CB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{81C38655-D189-4FE2-853A-387EFAD17581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81C38655-D189-4FE2-853A-387EFAD17581}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81C38655-D189-4FE2-853A-387EFAD17581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5148F32B-B6E7-4CEF-A56A-E7B729037CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5148F32B-B6E7-4CEF-A56A-E7B729037CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5148F32B-B6E7-4CEF-A56A-E7B729037CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5148F32B-B6E7-4CEF-A56A-E7B729037CB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +62,7 @@ Global
 		{91575466-9160-410E-A938-79D7B5DE55E0} = {4379C79F-30BA-4F91-9A26-F699DDB27B0D}
 		{03270C77-500E-4E3A-BB7A-63A9643A01BD} = {4379C79F-30BA-4F91-9A26-F699DDB27B0D}
 		{81C38655-D189-4FE2-853A-387EFAD17581} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
+		{5148F32B-B6E7-4CEF-A56A-E7B729037CB7} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {679B5D20-D9DE-4034-B400-A9C586E6D5A2}

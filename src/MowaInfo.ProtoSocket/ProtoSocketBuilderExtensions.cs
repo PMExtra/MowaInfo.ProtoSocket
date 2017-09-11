@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
 
 namespace MowaInfo.ProtoSocket
 {
     public static class ProtoSocketBuilderExtensions
     {
+        public static IProtoSocketBuilder UseStartup<T>(this IProtoSocketBuilder builder)
+        {
+            return builder.UseStartup(typeof(T));
+        }
+
         public static IProtoSocketBuilder UseCommands(this IProtoSocketBuilder builder, params Type[] commandTypes)
         {
-            foreach (var type in commandTypes)
-            {
-                builder.Services.AddTransient(type);
-            }
-            return builder;
+            return builder.UseCommands(commandTypes.AsEnumerable());
         }
 
         public static IProtoSocketBuilder UseCommandsIn(this IProtoSocketBuilder builder, Assembly assembly)
@@ -26,7 +26,7 @@ namespace MowaInfo.ProtoSocket
             var commandTypes = assembly.ExportedTypes.Where(type => type.GetInterfaces()
                 .Any(@interface => @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(ICommand<>)));
 #endif
-            return UseCommands(builder, commandTypes.ToArray());
+            return builder.UseCommands(commandTypes);
         }
     }
 }
