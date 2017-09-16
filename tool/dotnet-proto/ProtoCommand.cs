@@ -13,6 +13,8 @@ namespace dotnet_proto
     {
         public string AssemblyName { get; set; }
         public string ClassName { get; set; }
+        public string Syntax { get; set; }
+        public string Output { get; set; }
 
         public int Proto()
         {
@@ -59,21 +61,34 @@ namespace dotnet_proto
                     }
                 }
 
-
-                using (var sr = new StreamWriter(new FileStream(directory + "\\proto.txt", FileMode.Create, FileAccess.Write)))
+                string path;
+                if (string.IsNullOrEmpty(Output))
                 {
-                    var protoString = RuntimeTypeModel.Default.GetSchema(myType, ProtoSyntax.Proto2);
-                    //var protoString = Serializer.GetProto<MessageContainer>();
-                    sr.WriteLine("syntax = \"proto2\";");
-                    sr.WriteLine("package MowaLamp.OriginCommand;");
-                    sr.WriteLine("option optimize_for = LITE_RUNTIME;");
+                    Output = $"{AssemblyName}.proto";
+                    path = Path.Combine(directory, Output);
+                }
+                else
+                {
+                    if (Path.IsPathRooted(Output))
+                    {
+                        path = !string.IsNullOrEmpty(Path.GetFileName(Output)) ? Output : Path.Combine(Output, $"{AssemblyName}.proto");
+                    }
+                    else
+                    {
+                        path = !string.IsNullOrEmpty(Path.GetFileName(Output)) ? Path.Combine(directory, Output) : Path.Combine(directory, Output, $"{AssemblyName}.proto");
+                    }
+                }
+                Reporter.Output.WriteLine(path);
+                using (var sr = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write)))
+                {
+                    var protoString = RuntimeTypeModel.Default.GetSchema(myType, Syntax == "Proto2" ? ProtoSyntax.Proto2 : ProtoSyntax.Proto3);
                     sr.WriteLine(protoString);
                 }
                 return 0;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Reporter.Error.WriteLine(e.Message);
                 return 1;
             }
         }
