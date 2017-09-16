@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MowaInfo.ProtoSocket.Tools</id>
+    <version>1.0.0</version>
+    <authors>MowaInfo.ProtoSocket.Tools</authors>
+    <owners>MowaInfo.ProtoSocket.Tools</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <packageTypes>
+      <packageType name="DotnetCliTool" />
+    </packageTypes>
+    <dependencies>
+      <group targetFramework=".NETCoreApp2.0">
+        <dependency id="dotnet-proto" version="1.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="../dotnet-proto/bin/$configuration$/netcoreapp2.0/dotnet-proto.dll" target="lib/netcoreapp2.0/" />
+    <file src="../dotnet-proto/bin/$configuration$/netcoreapp2.0/dotnet-proto.runtimeconfig.json" target="lib/netcoreapp2.0/" />
+    <file src="bin/$configuration$/netcoreapp2.0/MowaInfo.ProtoSocket.Tools.dll" target="lib/netcoreapp2.0/" />
+  </files>
+</package>

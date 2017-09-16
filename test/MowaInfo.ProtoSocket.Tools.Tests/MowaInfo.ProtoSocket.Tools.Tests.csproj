@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-proto" Version="1.0.0" />
+    <DotNetCliToolReference Include="MowaInfo.ProtoSocket.Tools" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

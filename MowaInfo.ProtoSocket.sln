@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Tools.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-proto", "tool\dotnet-proto\dotnet-proto.csproj", "{7562AB66-8E50-4F8C-81DB-23B2ADBABDF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Tools", "tool\MowaInfo.ProtoSocket.Tools\MowaInfo.ProtoSocket.Tools.csproj", "{246AFD76-26B0-4D95-960E-9C6F2E42002E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{7562AB66-8E50-4F8C-81DB-23B2ADBABDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7562AB66-8E50-4F8C-81DB-23B2ADBABDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7562AB66-8E50-4F8C-81DB-23B2ADBABDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246AFD76-26B0-4D95-960E-9C6F2E42002E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246AFD76-26B0-4D95-960E-9C6F2E42002E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246AFD76-26B0-4D95-960E-9C6F2E42002E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246AFD76-26B0-4D95-960E-9C6F2E42002E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{5148F32B-B6E7-4CEF-A56A-E7B729037CB7} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
 		{AD390F32-A3D5-4317-BC30-173A59724D57} = {4379C79F-30BA-4F91-9A26-F699DDB27B0D}
 		{7562AB66-8E50-4F8C-81DB-23B2ADBABDF6} = {CF7E8015-5448-4E15-9510-7E97111573E8}
+		{246AFD76-26B0-4D95-960E-9C6F2E42002E} = {CF7E8015-5448-4E15-9510-7E97111573E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {679B5D20-D9DE-4034-B400-A9C586E6D5A2}
