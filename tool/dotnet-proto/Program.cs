@@ -1,13 +1,12 @@
 ﻿using System;
-using System.IO;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 
 namespace dotnet_proto
 {
-    class Program
+    internal class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             var app = new CommandLineApplication
             {
@@ -20,39 +19,25 @@ namespace dotnet_proto
             var assemblyOption = app.Option("-a |--assembly <assembly>", "The assembly name", CommandOptionType.SingleValue);
             var classOption = app.Option("-c |--class <class>", "The fully qualified class name", CommandOptionType.SingleValue);
 
-
-            // var writer = new ConsoleWriter();
-            // 
-            // if (args.Length == 0)
-            // {
-            //     ShowHelp();
-            //     return 0;
-            // }
-
-            // We are assuming just a single string on invocation (naive, I know)
             app.OnExecute(() =>
             {
                 var proto = new ProtoCommand
                 {
-                    //AssemblyName = "dotnet-proto",
-                    //ClassName = "Program"
                     AssemblyName = assemblyOption.Value(),
                     ClassName = classOption.Value()
                 };
 
-                if (String.IsNullOrEmpty(proto.AssemblyName))
+                if (string.IsNullOrEmpty(proto.AssemblyName))
                 {
-                    Reporter.Output.WriteLine("-a |--assembly <assembly> argument is required. Use -h|--help to see help");
-                    return 0;
-                }
-                if (String.IsNullOrEmpty(proto.ClassName))
-                {
-                    Reporter.Output.WriteLine("-c |--class <class> argument is required. Use -h|--help to see help");
-                    return 0;
+                    proto.AssemblyName = MyMsBuild.GetAssemblyName();
+                    if (string.IsNullOrEmpty(proto.AssemblyName))
+                    {
+                        Reporter.Error.WriteLine("No Assembly!");
+                        return 1;
+                    }
                 }
 
                 return proto.Proto();
-
             });
 
             try
