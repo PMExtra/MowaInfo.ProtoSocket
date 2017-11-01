@@ -5,7 +5,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket.Router
+namespace MowaInfo.ProtoSocket.Routing
 {
     public static class CommandServiceCollectionExtensions
     {

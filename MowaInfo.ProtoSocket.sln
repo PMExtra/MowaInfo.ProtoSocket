@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Abstra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Codecs", "src\MowaInfo.ProtoSocket.Codecs\MowaInfo.ProtoSocket.Codecs.csproj", "{E4C827E5-6912-4804-8EE9-0913C25F66BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Router", "src\MowaInfo.ProtoSocket.Router\MowaInfo.ProtoSocket.Router.csproj", "{55E803EC-4369-4986-8594-EC0107B59470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Routing", "src\MowaInfo.ProtoSocket.Routing\MowaInfo.ProtoSocket.Routing.csproj", "{55E803EC-4369-4986-8594-EC0107B59470}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4379C79F-30BA-4F91-9A26-F699DDB27B0D}"
 EndProject
@@ -31,11 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "example\Server\Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Session", "src\MowaInfo.ProtoSocket.Session\MowaInfo.ProtoSocket.Session.csproj", "{901831DD-B2A3-461F-917C-7911ACE8AD5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedisServer", "RedisServer\RedisServer.csproj", "{9FFB6B56-431E-4305-ABD0-D862B3C74684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedisServer", "example\RedisServer\RedisServer.csproj", "{9FFB6B56-431E-4305-ABD0-D862B3C74684}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.RedisContext", "..\..\Documents\MowaInfo.RedisContext\src\MowaInfo.RedisContext\MowaInfo.RedisContext.csproj", "{3B16D15F-BCED-41CC-8DAD-87D5F00B3AE6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Packing", "MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj", "{69FAF998-45EA-42D5-BB32-29C6F04347AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Packing", "src\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj", "{69FAF998-45EA-42D5-BB32-29C6F04347AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

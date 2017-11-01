@@ -6,12 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.0" />
+    <PackageReference Include="MowaInfo.RedisContext" Version="0.2.0-alpha2" />
     <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Documents\MowaInfo.RedisContext\src\MowaInfo.RedisContext\MowaInfo.RedisContext.csproj" />
-    <ProjectReference Include="..\example\model\Messages\Messages.csproj" />
+    <ProjectReference Include="..\model\Messages\Messages.csproj" />
   </ItemGroup>
 
 </Project>

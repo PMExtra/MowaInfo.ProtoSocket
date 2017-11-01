@@ -2,7 +2,7 @@
 using System.Reflection;
 using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket.Router
+namespace MowaInfo.ProtoSocket.Routing
 {
     internal class CommandInfo
     {
@@ -11,7 +11,7 @@ namespace MowaInfo.ProtoSocket.Router
         public ExceptionHandlerAttribute[] ExceptionHandlers { get; set; }
 
         public CommandFilterAttribute[] Filters { get; set; }
-
+        
         public MethodInfo Invoker { get; set; }
     }
 }

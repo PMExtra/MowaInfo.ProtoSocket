@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj" />
+    <ProjectReference Include="..\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj" />
   </ItemGroup>
 
 </Project>

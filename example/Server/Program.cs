@@ -14,13 +14,13 @@ using Microsoft.Extensions.Logging;
 using MowaInfo.ProtoSocket.Abstract;
 using MowaInfo.ProtoSocket.Codecs;
 using MowaInfo.ProtoSocket.Packing;
-using MowaInfo.ProtoSocket.Router;
+using MowaInfo.ProtoSocket.Routing;
 using MowaInfo.ProtoSocket.Session;
 using Server.command;
 
 namespace Server
 {
-    class Program
+    internal class Program
     {
         public static IServiceProvider Provider { get; set; }
         public static IServiceCollection Services { get; } = new ServiceCollection();
@@ -34,7 +34,7 @@ namespace Server
 
             loggerFactory.AddConsole((s, level) => true, false);
             var filters = new List<ICommandFilter>();
-            var exceptionHandlers = new List<IExceptionHandler>(); 
+            var exceptionHandlers = new List<IExceptionHandler>();
             var bossGroup = new MultithreadEventLoopGroup(1);
             var workerGroup = new MultithreadEventLoopGroup();
             var bootstrap = new ServerBootstrap();
@@ -62,7 +62,7 @@ namespace Server
             new CancellationTokenSource().Token.WaitHandle.WaitOne();
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             RunServerAsync().Wait();
         }
@@ -75,8 +75,7 @@ namespace Server
             //services.AddSingleton(_ => new EventRedisContext(new HostString(RedisConnection)));
             services.AddCommand(typeof(LoginCommand), typeof(Package));
             services.AddLogging();
-            services.AddScoped< MessageSender < IPackage > ,MessageSender <Package>>();
-            services.AddScoped<ICommandContext, CommandContext> ();
+            services.AddScoped<ICommandContext, CommandContext>();
             services.AddSingleton<IPacker<Package>, SimplePacker<Package>>();
         }
     }

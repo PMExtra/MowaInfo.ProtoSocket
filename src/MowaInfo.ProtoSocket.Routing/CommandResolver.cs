@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket.Router
+namespace MowaInfo.ProtoSocket.Routing
 {
     internal class CommandResolver
     {

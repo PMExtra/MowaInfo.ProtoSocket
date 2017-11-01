@@ -1,7 +1,6 @@
-﻿using System;
-using MowaInfo.ProtoSocket.Abstract;
+﻿using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket.Router
+namespace MowaInfo.ProtoSocket.Routing
 {
     public class SimpleCommandContextFactory<T>:CommandContextFactory<T>
         where T : ICommandContext, new()

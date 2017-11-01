@@ -11,10 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj" />
+    <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj" />
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Codecs\MowaInfo.ProtoSocket.Codecs.csproj" />
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Configuration\MowaInfo.ProtoSocket.Configuration.csproj" />
-    <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Router\MowaInfo.ProtoSocket.Router.csproj" />
+    <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Routing\MowaInfo.ProtoSocket.Routing.csproj" />
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Session\MowaInfo.ProtoSocket.Session.csproj" />
     <ProjectReference Include="..\model\Messages\Messages.csproj" />
   </ItemGroup>

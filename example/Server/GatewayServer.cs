@@ -5,7 +5,7 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
-using MowaInfo.ProtoSocket.Router;
+using MowaInfo.ProtoSocket.Routing;
 
 namespace Server
 {

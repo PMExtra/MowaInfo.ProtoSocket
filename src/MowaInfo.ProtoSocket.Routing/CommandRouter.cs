@@ -6,13 +6,12 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MowaInfo.ProtoSocket.Abstract;
-using MowaInfo.ProtoSocket.Session;
 
 #if NETSTANDARD1_3
 using System.Reflection;
 #endif
 
-namespace MowaInfo.ProtoSocket.Router
+namespace MowaInfo.ProtoSocket.Routing
 {
     public class CommandRouter<TContext, TContainer> : SimpleChannelInboundHandler<TContainer>
         where TContainer : IPackage
