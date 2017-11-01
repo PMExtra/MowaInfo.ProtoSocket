@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MowaInfo.ProtoSocket.Abstract
 {
     public abstract class CommandContextBase : ICommandContext
     {
-        public IMessageContainer Request { get; set; }
+        public IPackage Request { get; set; }
 
-        public IMessageContainer Response { get; set; }
+        public IPackage Response { get; set; }
 
         public IDictionary<object, object> Items { get; set; }
 
@@ -23,6 +24,6 @@ namespace MowaInfo.ProtoSocket.Abstract
             RequestAborted = new CancellationToken(true);
         }
 
-        public abstract void Reply(IMessage message);
+        public abstract TaskCompletionSource<IPackage> Reply(IMessage message);
     }
 }

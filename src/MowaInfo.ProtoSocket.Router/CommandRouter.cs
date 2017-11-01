@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MowaInfo.ProtoSocket.Abstract;
+using MowaInfo.ProtoSocket.Session;
 
 #if NETSTANDARD1_3
 using System.Reflection;
@@ -13,39 +15,45 @@ using System.Reflection;
 namespace MowaInfo.ProtoSocket.Router
 {
     public class CommandRouter<TContext, TContainer> : SimpleChannelInboundHandler<TContainer>
-        where TContainer : IMessageContainer
-        where TContext : ICommandContext, new()
+        where TContainer : IPackage
+        where TContext : ICommandContext
     {
         private readonly IEnumerable<IExceptionHandler> _exceptionHandlers;
         private readonly IEnumerable<ICommandFilter> _filters;
 
         private readonly CommandResolver _resolver;
-        private readonly IServiceScope _scope;
         private readonly IServiceProvider _services;
+        private IServiceScope _scope;
+        private ILogger _logger;
 
         private ISession _session;
 
-        public CommandRouter(IServiceScope serviceScope, IEnumerable<ICommandFilter> filters, IEnumerable<IExceptionHandler> exceptionHandlers)
+        public CommandRouter(IServiceProvider services,IEnumerable<ICommandFilter> filters, IEnumerable<IExceptionHandler> exceptionHandlers)
         {
             _filters = filters;
             _exceptionHandlers = exceptionHandlers;
 
-            _scope = serviceScope;
-            _services = serviceScope.ServiceProvider;
+            _services = services;
             _resolver = _services.GetRequiredService<CommandResolver>();
+            _logger = _services.GetService<ILoggerFactory>().CreateLogger("CommandRouter");
         }
 
-        protected override void ChannelRead0(IChannelHandlerContext context, TContainer container)
+        public override void ChannelActive(IChannelHandlerContext context)
         {
-            foreach (var commandInfo in _resolver.CommandsOfMessageType(container.MessageType))
+            _session = context.Channel.GetAttribute(AttributeKey<ISession>.ValueOf(nameof(_session))).Get();
+            base.ChannelActive(context);
+            _scope = _services.CreateScope();
+        }
+
+        protected override void ChannelRead0(IChannelHandlerContext context, TContainer package)
+        {
+            foreach (var commandInfo in _resolver.CommandsOfMessageType(package.MessageType))
             {
                 var command = _services.GetRequiredService(commandInfo.CommandClass);
-                var commandContext = new TContext
-                {
-                    Request = container,
-                    RequestServices = _services,
-                    Session = _session
-                };
+                var commandContext = _services.GetService<ICommandContext>();
+                commandContext.RequestServices = _services;
+                commandContext.Session = _session;
+                commandContext.Request = package;
                 var task = Task.Run(async () =>
                 {
                     await _session.LoadAsync();
@@ -60,7 +68,7 @@ namespace MowaInfo.ProtoSocket.Router
                         await filter.OnCommandExecuting(commandContext);
                     }
                     commandContext.RequestAborted.ThrowIfCancellationRequested();
-                    await (Task)commandInfo.Invoker.Invoke(command, new[] { commandContext, container.GetMessage() });
+                    await (Task)commandInfo.Invoker.Invoke(command, new[] { commandContext, package.GetMessage() });
                     foreach (var filter in commandInfo.Filters)
                     {
                         commandContext.RequestAborted.ThrowIfCancellationRequested();
@@ -95,17 +103,15 @@ namespace MowaInfo.ProtoSocket.Router
             context.Flush();
         }
 
-        public override void ChannelUnregistered(IChannelHandlerContext context)
+        public override void ChannelInactive(IChannelHandlerContext context)
         {
-            base.ChannelUnregistered(context);
+            base.ChannelInactive(context);
             _scope.Dispose();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            var commandSetupHandler = context.Channel.Pipeline.Get<CommandSetupHandler>();
-
-            commandSetupHandler.Logger.LogError(exception.ToString());
+            _logger.LogError(exception.ToString());
             context.CloseAsync();
         }
     }

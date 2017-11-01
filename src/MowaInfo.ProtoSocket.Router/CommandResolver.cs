@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -12,19 +13,18 @@ namespace MowaInfo.ProtoSocket.Router
     {
         private readonly IReadOnlyDictionary<int, CommandInfo[]> _commandsByCommandType;
 
-        public CommandResolver(IServiceCollection services)
+        public CommandResolver(IEnumerable<Type> commandTypes)
         {
-            var types = services.Select(descriptor => descriptor.ServiceType);
-
             var commands = new Dictionary<int, List<CommandInfo>>();
 
-            foreach (var type in types)
+            foreach (var type in commandTypes)
             {
 #if NETSTANDARD1_3
-                var iCommands = type.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>));
+                var iCommands = type.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>)).ToArray();
 #else
-                var iCommands = type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>));
+                var iCommands = type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>)).ToArray();
 #endif
+                Debug.Assert(!iCommands.Any());
                 foreach (var iCommand in iCommands)
                 {
                     var messageClass = iCommand.GenericTypeArguments.Single();

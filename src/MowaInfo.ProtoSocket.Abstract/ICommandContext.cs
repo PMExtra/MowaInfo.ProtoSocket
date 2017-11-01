@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MowaInfo.ProtoSocket.Abstract
 {
     public interface ICommandContext
     {
-        IMessageContainer Request { get; set; }
+        IPackage Request { get; set; }
 
-        IMessageContainer Response { get; set; }
+        IPackage Response { get; set; }
         
         IDictionary<object, object> Items { get; set; }
 
@@ -20,6 +21,6 @@ namespace MowaInfo.ProtoSocket.Abstract
 
         void Abort();
 
-        void Reply(IMessage message);
+        TaskCompletionSource<IPackage> Reply(IMessage message);
     }
 }

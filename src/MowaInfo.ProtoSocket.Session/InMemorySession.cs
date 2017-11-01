@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket.Abstract
+namespace MowaInfo.ProtoSocket.Session
 {
     public class InMemorySession : ISession
     {
