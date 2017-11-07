@@ -10,7 +10,7 @@ namespace MowaInfo.ProtoSocket.Abstract
         IPackage Request { get; set; }
 
         IPackage Response { get; set; }
-        
+
         IDictionary<object, object> Items { get; set; }
 
         IServiceProvider RequestServices { get; set; }

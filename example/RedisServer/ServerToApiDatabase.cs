@@ -6,6 +6,5 @@ namespace RedisServer
     [GetDatabase(2)]
     public class ServerToApiDatabase : RedisDatabase
     {
-        
     }
 }

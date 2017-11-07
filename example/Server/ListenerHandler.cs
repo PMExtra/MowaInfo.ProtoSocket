@@ -11,10 +11,6 @@ namespace Server
         public override void ChannelActive(IChannelHandlerContext ctx)
         {
             _session = ctx.Channel.GetAttribute(AttributeKey<ISession>.ValueOf(nameof(_session))).Get();
-            
-
-
-
         }
     }
 }

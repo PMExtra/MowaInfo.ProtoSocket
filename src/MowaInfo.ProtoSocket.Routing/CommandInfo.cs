@@ -11,7 +11,7 @@ namespace MowaInfo.ProtoSocket.Routing
         public ExceptionHandlerAttribute[] ExceptionHandlers { get; set; }
 
         public CommandFilterAttribute[] Filters { get; set; }
-        
+
         public MethodInfo Invoker { get; set; }
     }
 }

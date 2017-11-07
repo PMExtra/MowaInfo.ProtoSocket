@@ -20,6 +20,7 @@ namespace RedisServer
         protected virtual void OnNext(Package package)
         {
         }
+
         private static T Deserialize<T>(byte[] bytes)
         {
             using (var stream = new MemoryStream(bytes))

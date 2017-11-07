@@ -2,7 +2,7 @@
 {
     // ReSharper disable once TypeParameterCanBeVariant
     public interface IPacker<T>
-        where T:IPackage
+        where T : IPackage
     {
         T CreatePackage(IMessage message);
         T CreatePackage(int messageType);

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace MowaInfo.ProtoSocket.Abstract
 {
     public abstract class Packer<T> : IPacker<T>
         where T : IPackage
     {
-        [SuppressMessage("ReSharper", "MemberCanBeProtected.Global")]
-        public abstract T CreatePackage(IMessage message);
-
-        [SuppressMessage("ReSharper", "MemberCanBeProtected.Global")]
-        public abstract T CreatePackage(int messageType);
-
         T IPacker<T>.CreatePackage(IMessage message)
         {
             return CreatePackage(message);
@@ -21,5 +14,11 @@ namespace MowaInfo.ProtoSocket.Abstract
         {
             return CreatePackage(messageType);
         }
+
+        [SuppressMessage("ReSharper", "MemberCanBeProtected.Global")]
+        public abstract T CreatePackage(IMessage message);
+
+        [SuppressMessage("ReSharper", "MemberCanBeProtected.Global")]
+        public abstract T CreatePackage(int messageType);
     }
 }

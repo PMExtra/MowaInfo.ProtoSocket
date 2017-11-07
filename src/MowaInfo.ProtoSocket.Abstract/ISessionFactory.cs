@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MowaInfo.ProtoSocket.Abstract
+﻿namespace MowaInfo.ProtoSocket.Abstract
 {
     public interface ISessionFactory
     {

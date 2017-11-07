@@ -1,5 +1,4 @@
-﻿using System;
-using DotNetty.Common.Utilities;
+﻿using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using MowaInfo.ProtoSocket.Abstract;
 

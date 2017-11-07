@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using MowaInfo.ProtoSocket.Abstract;
+﻿using MowaInfo.ProtoSocket.Abstract;
 
 namespace MowaInfo.ProtoSocket.Session
 {

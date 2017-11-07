@@ -2,7 +2,7 @@
 
 namespace MowaInfo.ProtoSocket.Routing
 {
-    public class SimpleCommandContextFactory<T>:CommandContextFactory<T>
+    public class SimpleCommandContextFactory<T> : CommandContextFactory<T>
         where T : ICommandContext, new()
     {
         public override T CreateCommandContext()

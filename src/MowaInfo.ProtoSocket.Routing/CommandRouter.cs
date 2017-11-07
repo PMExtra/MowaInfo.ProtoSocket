@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,44 +12,45 @@ using System.Reflection;
 
 namespace MowaInfo.ProtoSocket.Routing
 {
-    public class CommandRouter<TContext, TContainer> : SimpleChannelInboundHandler<TContainer>
-        where TContainer : IPackage
+    public class CommandRouter<TContext, TPackage> : SimpleChannelInboundHandler<TPackage>
+        where TPackage : IPackage
         where TContext : ICommandContext
     {
         private readonly IEnumerable<IExceptionHandler> _exceptionHandlers;
         private readonly IEnumerable<ICommandFilter> _filters;
 
-        private readonly CommandResolver _resolver;
-        private readonly IServiceProvider _services;
+        private readonly IMessageSender _sender;
+        private readonly ILogger _logger;
+        private readonly IServiceProvider _provider;
         private IServiceScope _scope;
-        private ILogger _logger;
 
         private ISession _session;
 
-        public CommandRouter(IServiceProvider services,IEnumerable<ICommandFilter> filters, IEnumerable<IExceptionHandler> exceptionHandlers)
+        public CommandRouter(IServiceCollection services, ISession session, IMessageSender sender,
+            IEnumerable<ICommandFilter> filters, IEnumerable<IExceptionHandler> exceptionHandlers, ILogger<CommandRouter<TContext, TPackage>> logger)
         {
             _filters = filters;
             _exceptionHandlers = exceptionHandlers;
 
-            _services = services;
-            _resolver = _services.GetRequiredService<CommandResolver>();
-            _logger = _services.GetService<ILoggerFactory>().CreateLogger("CommandRouter");
+            _session = session;
+            _sender = sender;
+            _logger = logger;
+
+            services.AddSingleton(session);
+            services.AddSingleton(sender);
+            _provider = services.BuildServiceProvider(true);
         }
 
-        public override void ChannelActive(IChannelHandlerContext context)
+        protected override void ChannelRead0(IChannelHandlerContext context, TPackage package)
         {
-            _session = context.Channel.GetAttribute(AttributeKey<ISession>.ValueOf(nameof(_session))).Get();
-            base.ChannelActive(context);
-            _scope = _services.CreateScope();
-        }
-
-        protected override void ChannelRead0(IChannelHandlerContext context, TContainer package)
-        {
+            _scope = _provider.CreateScope();
+            var services = _scope.ServiceProvider;
+            var _resolver = services.GetService<CommandResolver>();
             foreach (var commandInfo in _resolver.CommandsOfMessageType(package.MessageType))
             {
-                var command = _services.GetRequiredService(commandInfo.CommandClass);
-                var commandContext = _services.GetService<ICommandContext>();
-                commandContext.RequestServices = _services;
+                var command = services.GetRequiredService(commandInfo.CommandClass);
+                var commandContext = services.GetService<ICommandContext>();
+                commandContext.RequestServices = services;
                 commandContext.Session = _session;
                 commandContext.Request = package;
                 var task = Task.Run(async () =>
@@ -100,12 +100,8 @@ namespace MowaInfo.ProtoSocket.Routing
         public override void ChannelReadComplete(IChannelHandlerContext context)
         {
             context.Flush();
-        }
-
-        public override void ChannelInactive(IChannelHandlerContext context)
-        {
-            base.ChannelInactive(context);
-            _scope.Dispose();
+            base.ChannelReadComplete(context);
+            _scope?.Dispose();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)

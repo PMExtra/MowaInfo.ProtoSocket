@@ -8,8 +8,8 @@ namespace RedisServer
     public class ApiShadowPublish
     {
         private readonly ApiToServerDatabase _database;
-        private readonly ApiPublish _publish;
         private readonly ApiObserver _observer;
+        private readonly ApiPublish _publish;
 
         public ApiShadowPublish(ApiToServerDatabase database, ApiPublish publish, ApiObserver observer)
         {
@@ -30,7 +30,7 @@ namespace RedisServer
 
         public async Task<long> PublishAsync(int gatewayId, Package msg)
         {
-            var buffer = Serialize<Package>(msg);
+            var buffer = Serialize(msg);
             await _database.StringSetAsync(GetStoreKey(gatewayId, msg.Id), buffer);
             return await _publish.PublishAsync(buffer);
         }

@@ -10,6 +10,7 @@ namespace MowaInfo.ProtoSocket.Packing
         {
             return (T)Activator.CreateInstance(typeof(T), message);
         }
+
         public override T CreatePackage(int messageType)
         {
             return (T)Activator.CreateInstance(typeof(T), messageType);

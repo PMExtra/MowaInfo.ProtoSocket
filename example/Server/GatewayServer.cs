@@ -5,7 +5,6 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
-using MowaInfo.ProtoSocket.Routing;
 
 namespace Server
 {
@@ -13,15 +12,6 @@ namespace Server
     {
         public IServiceProvider ServiceProvider;
         //public readonly string RedisConnection;
-
-        public GatewayServer()
-        {
-            //Configuration = new ConfigurationBuilder()
-            //    .SetBasePath(Environment.CurrentDirectory)
-            //    .AddJsonFile("appsettings.json", false, true).Build();
-            //var connectionsSection = Configuration.GetSection("Connections");
-            //RedisConnection = connectionsSection[nameof(RedisConnection)];
-        }
 
         public Hashtable GatewaySesssionTable { get; set; }
         public IConfiguration Configuration { get; }
@@ -35,7 +25,7 @@ namespace Server
             var serviceProviderFactory = new DefaultServiceProviderFactory();
             ServiceProvider = serviceProviderFactory.CreateServiceProvider(services);
             GatewaySesssionTable = Hashtable.Synchronized(new Hashtable());
-            
+
             return Task.CompletedTask;
         }
 

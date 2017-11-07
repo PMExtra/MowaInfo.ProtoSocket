@@ -1,15 +1,13 @@
 ﻿using System.Threading.Tasks;
-using DotNetty.Transport.Channels;
-using Messages;
 using MowaInfo.ProtoSocket.Abstract;
 
 namespace Server
 {
-    public class CommandContext: CommandContextBase
+    public class CommandContext : CommandContextBase
     {
-        private readonly MessageSender<IPackage> _handler;
+        private readonly IMessageSender _handler;
 
-        public CommandContext(MessageSender<IPackage> handler)
+        public CommandContext(IMessageSender handler)
         {
             _handler = handler;
         }
@@ -17,7 +15,6 @@ namespace Server
         public override TaskCompletionSource<IPackage> Reply(IMessage message)
         {
             return _handler.Reply(Request.Id, message);
-
         }
     }
 }

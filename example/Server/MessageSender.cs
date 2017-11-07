@@ -6,22 +6,35 @@ using MowaInfo.ProtoSocket.Abstract;
 
 namespace Server
 {
-    public class MessageSender<TPackage> : ChannelHandlerAdapter
+    public class MessageSender<TPackage> : ChannelHandlerAdapter, IMessageSender
         where TPackage : IPackage
     {
         private readonly Hashtable _eventTable = Hashtable.Synchronized(new Hashtable());
 
-        private IChannelHandlerContext _context;
-        private long _lastMessageId;
-
         private readonly IPacker<TPackage> _packer;
 
-        public Hashtable ReceiveMessageTable { get; set; } = Hashtable.Synchronized(new Hashtable());
+        private IChannelHandlerContext _context;
+        private long _lastMessageId;
 
 
         public MessageSender(IPacker<TPackage> packer)
         {
             _packer = packer;
+        }
+
+        public Hashtable ReceiveMessageTable { get; set; } = Hashtable.Synchronized(new Hashtable());
+
+        public TaskCompletionSource<IPackage> Send<T>(T message) where T : IMessage
+        {
+            var package = _packer.CreatePackage(message);
+            return Send(package);
+        }
+
+        public TaskCompletionSource<IPackage> Reply<T>(ulong id, T message) where T : IMessage
+        {
+            var package = _packer.CreatePackage(message);
+            package.ReplyId = id;
+            return Send(package);
         }
 
         private ulong NextMessageId()
@@ -32,30 +45,20 @@ namespace Server
         public override void ChannelActive(IChannelHandlerContext ctx)
         {
             _context = ctx;
+            base.ChannelActive(ctx);
         }
 
-        private TaskCompletionSource<TPackage> Send(TPackage package)
+        private TaskCompletionSource<IPackage> Send(TPackage package)
         {
             if (package.Id == 0)
             {
                 package.Id = NextMessageId();
             }
-            _eventTable.Add(package.Id, new TaskCompletionSource<TPackage>());
+
+            var source = new TaskCompletionSource<IPackage>();
+            _eventTable.Add(package.Id, source);
             _context.WriteAndFlushAsync(package);
-            return _eventTable[package.Id] as TaskCompletionSource<TPackage>;
-        }
-
-        public TaskCompletionSource<TPackage> Send<T>(T message) where T : IMessage
-        {
-            var package = _packer.CreatePackage(message);
-            return Send(package);
-        }
-
-        public TaskCompletionSource<TPackage> Reply<T>(ulong id, T message) where T : IMessage
-        {
-            var package = _packer.CreatePackage(message);
-            package.ReplyId = id;
-            return Send(package);
+            return source;
         }
     }
 }

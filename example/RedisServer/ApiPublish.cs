@@ -7,7 +7,7 @@ using StackExchange.Redis;
 
 namespace RedisServer
 {
-    public class ApiPublish:RedisPublisher
+    public class ApiPublish : RedisPublisher
     {
         public ApiPublish(RedisChannel channel) : base(channel)
         {
@@ -17,7 +17,7 @@ namespace RedisServer
         {
             return base.Publish(Serialize(package));
         }
-        
+
         public virtual Task<long> PublishAsync(Package package)
         {
             return base.PublishAsync(Serialize(package));
@@ -27,7 +27,7 @@ namespace RedisServer
         {
             return base.Publish(buffer);
         }
-        
+
         public virtual Task<long> PublishAsync(byte[] buffer)
         {
             return base.PublishAsync(buffer);

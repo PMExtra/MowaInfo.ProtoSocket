@@ -5,7 +5,7 @@ namespace Messages
 {
     [ProtoContract]
     [MessageType((int)MessageType.Success)]
-    public class SuccessMessage :IMessage
+    public class SuccessMessage : IMessage
     {
     }
 }

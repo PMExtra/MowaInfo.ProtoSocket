@@ -9,6 +9,13 @@ namespace MowaInfo.ProtoSocket.Routing
 {
     public static class CommandServiceCollectionExtensions
     {
+        public static IServiceCollection AddRouter<TCommandContext, TPackage>(this IServiceCollection services)
+            where TCommandContext : ICommandContext
+            where TPackage : IPackage
+        {
+            return services.AddScoped<CommandRouter<TCommandContext, TPackage>>();
+        }
+
         public static IServiceCollection AddCommand(this IServiceCollection services, params Type[] assemblyMarkerTypes)
         {
             return AddCommand(services, assemblyMarkerTypes.Select(t => t.GetTypeInfo().Assembly));
@@ -31,8 +38,7 @@ namespace MowaInfo.ProtoSocket.Routing
             {
                 services.AddScoped(commandType);
             }
-            services.AddSingleton(_ => new CommandResolver(commandTypes));
-            //services.AddSingleton(_ => new CommandResolver(services));
+            services.AddScoped(_ => new CommandResolver(commandTypes));
             return services;
         }
     }
