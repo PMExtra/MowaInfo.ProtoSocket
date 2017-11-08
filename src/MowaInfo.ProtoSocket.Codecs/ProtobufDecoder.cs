@@ -8,8 +8,8 @@ using ProtoBuf;
 
 namespace MowaInfo.ProtoSocket.Codecs
 {
-    public class ProtobufDecoder<TContainer> : ByteToMessageDecoder
-        where TContainer : new()
+    public class ProtobufDecoder<TPackage> : ByteToMessageDecoder
+        where TPackage : new()
     {
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
         {
@@ -22,7 +22,7 @@ namespace MowaInfo.ProtoSocket.Codecs
             input.MarkReaderIndex();
             try
             {
-                var package = Serializer.DeserializeWithLengthPrefix<TContainer>(inputStream, PrefixStyle.Base128);
+                var package = Serializer.DeserializeWithLengthPrefix<TPackage>(inputStream, PrefixStyle.Base128);
                 output.Add(package);
             }
             catch (EndOfStreamException)

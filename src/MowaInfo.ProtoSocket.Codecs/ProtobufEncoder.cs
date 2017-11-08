@@ -6,9 +6,9 @@ using ProtoBuf;
 
 namespace MowaInfo.ProtoSocket.Codecs
 {
-    public class ProtobufEncoder<TContainer> : MessageToMessageEncoder<TContainer>
+    public class ProtobufEncoder<TPackage> : MessageToMessageEncoder<TPackage>
     {
-        protected override void Encode(IChannelHandlerContext context, TContainer message, List<object> output)
+        protected override void Encode(IChannelHandlerContext context, TPackage message, List<object> output)
         {
             byte[] data;
             using (var stream = new MemoryStream())

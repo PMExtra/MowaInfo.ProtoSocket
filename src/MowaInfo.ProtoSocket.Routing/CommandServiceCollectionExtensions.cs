@@ -16,29 +16,26 @@ namespace MowaInfo.ProtoSocket.Routing
             return services.AddScoped<CommandRouter<TCommandContext, TPackage>>();
         }
 
-        public static IServiceCollection AddCommand(this IServiceCollection services, params Type[] assemblyMarkerTypes)
+        public static IServiceCollection AddCommand(this IServiceCollection services, Type assemblyMarkerType)
         {
-            return AddCommand(services, assemblyMarkerTypes.Select(t => t.GetTypeInfo().Assembly));
+            return AddCommand(services, assemblyMarkerType.GetTypeInfo().Assembly);
         }
 
-        public static IServiceCollection AddCommand(this IServiceCollection services, IEnumerable<Assembly> assembliesToScan)
+        public static IServiceCollection AddCommand(this IServiceCollection services, Assembly assembliesToScan)
         {
-            assembliesToScan = assembliesToScan as Assembly[] ?? assembliesToScan.ToArray();
-            var allTypes = assembliesToScan
-                .SelectMany(a => a.DefinedTypes)
-                .ToArray();
-            var messageTypes = allTypes
-                .Where(m => typeof(IMessage).IsAssignableFrom(m.AsType()))
-                .ToArray();
-            var commandTypes = allTypes
-                .Where(t => messageTypes.Any(m => typeof(ICommand<>).MakeGenericType(m.AsType()).IsAssignableFrom(t.AsType())) && !t.IsAbstract)
-                .Select(t => t.AsType())
-                .ToArray();
-            foreach (var commandType in commandTypes)
+#if NETSTANDARD1_3
+            var commandTypes = assembliesToScan.ExportedTypes.Where(type => type.GetInterfaces()
+                .Any(@interface => @interface.GetTypeInfo().IsGenericType && @interface.GetGenericTypeDefinition() == typeof(ICommand<>)));
+#else
+            var commandTypes = assembliesToScan.ExportedTypes.Where(type => type.GetInterfaces()
+                .Any(@interface => @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(ICommand<>)));
+#endif
+            var enumerable = commandTypes as Type[] ?? commandTypes.ToArray();
+            foreach (var commandType in enumerable)
             {
                 services.AddScoped(commandType);
             }
-            services.AddScoped(_ => new CommandResolver(commandTypes));
+            services.AddScoped(_ => new CommandResolver(enumerable));
             return services;
         }
     }
