@@ -5,6 +5,5 @@
         where T : IPackage
     {
         T CreatePackage(IMessage message);
-        T CreatePackage(int messageType);
     }
 }

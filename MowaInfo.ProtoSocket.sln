@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27009.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{735FD936-62C6-4A6A-87D1-EA874A82ECD6}"
 EndProject
@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Sessio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedisServer", "example\RedisServer\RedisServer.csproj", "{9FFB6B56-431E-4305-ABD0-D862B3C74684}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Packing", "src\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj", "{69FAF998-45EA-42D5-BB32-29C6F04347AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MowaInfo.ProtoSocket.Packing", "src\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj", "{69FAF998-45EA-42D5-BB32-29C6F04347AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MowaInfo.ProtoSocket.Bridging", "src\MowaInfo.ProtoSocket.Bridging\MowaInfo.ProtoSocket.Bridging.csproj", "{9CBF0B93-9E79-4538-A22F-B2E0F5A506EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,14 +83,14 @@ Global
 		{9FFB6B56-431E-4305-ABD0-D862B3C74684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FFB6B56-431E-4305-ABD0-D862B3C74684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FFB6B56-431E-4305-ABD0-D862B3C74684}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B16D15F-BCED-41CC-8DAD-87D5F00B3AE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B16D15F-BCED-41CC-8DAD-87D5F00B3AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B16D15F-BCED-41CC-8DAD-87D5F00B3AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B16D15F-BCED-41CC-8DAD-87D5F00B3AE6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69FAF998-45EA-42D5-BB32-29C6F04347AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69FAF998-45EA-42D5-BB32-29C6F04347AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69FAF998-45EA-42D5-BB32-29C6F04347AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69FAF998-45EA-42D5-BB32-29C6F04347AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBF0B93-9E79-4538-A22F-B2E0F5A506EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBF0B93-9E79-4538-A22F-B2E0F5A506EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBF0B93-9E79-4538-A22F-B2E0F5A506EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBF0B93-9E79-4538-A22F-B2E0F5A506EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,8 +108,8 @@ Global
 		{2FBE6246-B608-49D4-BA01-CE914E6C5E7F} = {24E6267C-7BD3-48C9-9779-6C5941D705B7}
 		{901831DD-B2A3-461F-917C-7911ACE8AD5E} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
 		{9FFB6B56-431E-4305-ABD0-D862B3C74684} = {24E6267C-7BD3-48C9-9779-6C5941D705B7}
-		{3B16D15F-BCED-41CC-8DAD-87D5F00B3AE6} = {24E6267C-7BD3-48C9-9779-6C5941D705B7}
 		{69FAF998-45EA-42D5-BB32-29C6F04347AC} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
+		{9CBF0B93-9E79-4538-A22F-B2E0F5A506EF} = {735FD936-62C6-4A6A-87D1-EA874A82ECD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {679B5D20-D9DE-4034-B400-A9C586E6D5A2}

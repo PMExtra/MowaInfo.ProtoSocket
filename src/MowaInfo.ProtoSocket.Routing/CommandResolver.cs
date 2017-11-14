@@ -23,7 +23,7 @@ namespace MowaInfo.ProtoSocket.Routing
 #else
                 var iCommands = type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>)).ToArray();
 #endif
-                Debug.Assert(!iCommands.Any());
+                Debug.Assert(iCommands.Any());
                 foreach (var iCommand in iCommands)
                 {
                     var messageClass = iCommand.GenericTypeArguments.Single();

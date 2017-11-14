@@ -67,7 +67,7 @@ namespace MowaInfo.ProtoSocket.Routing
                         await filter.OnCommandExecuting(commandContext);
                     }
                     commandContext.RequestAborted.ThrowIfCancellationRequested();
-                    await (Task)commandInfo.Invoker.Invoke(command, new[] { commandContext, package.GetMessage() });
+                    await (Task)commandInfo.Invoker.Invoke(command, new object[] { commandContext, package.GetMessage() });
                     foreach (var filter in commandInfo.Filters)
                     {
                         commandContext.RequestAborted.ThrowIfCancellationRequested();
@@ -107,6 +107,9 @@ namespace MowaInfo.ProtoSocket.Routing
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
             _logger.LogError(exception.ToString());
+            Console.WriteLine(exception.GetType().FullName);
+            Console.WriteLine(exception.ToString());
+            Console.WriteLine(exception.StackTrace);
             context.CloseAsync();
         }
     }

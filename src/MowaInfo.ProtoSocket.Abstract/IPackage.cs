@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MowaInfo.ProtoSocket.Abstract
+﻿namespace MowaInfo.ProtoSocket.Abstract
 {
     public interface IPackage
     {
@@ -8,32 +6,19 @@ namespace MowaInfo.ProtoSocket.Abstract
 
         ulong? ReplyId { get; set; }
 
-        int MessageType { get; }
-
-        Type ClassOfMessageType(int messageType);
-
-        int MessageTypeOfClass(Type type);
-
-        object MessageOfMessageType(int messageType);
+        int MessageType { get; set; }
     }
 
     public static class PackageDefault
     {
-        public static object GetMessage(this IPackage package)
+        public static IMessage GetMessage<T>(this T package) where T : IPackage
         {
-            var messageClass = package.ClassOfMessageType(package.MessageType);
-            return MessageOfClass(package, messageClass);
+            return PackageInfo<T>.GetMessage(package);
         }
 
-        public static T MessageOfClass<T>(this IPackage package) where T : IMessage
+        public static void SetMessage<T>(this T package, IMessage message) where T : IPackage
         {
-            return (T)MessageOfClass(package, typeof(T));
-        }
-
-        public static object MessageOfClass(this IPackage package, Type type)
-        {
-            var messageType = package.MessageTypeOfClass(type);
-            return package.MessageOfMessageType(messageType);
+            PackageInfo<T>.SetMessage(package, message);
         }
     }
 }

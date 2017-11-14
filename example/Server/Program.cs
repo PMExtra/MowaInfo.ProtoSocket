@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNetty.Common.Internal.Logging;
@@ -9,7 +10,9 @@ using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 using Messages;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using MowaInfo.ProtoSocket.Abstract;
 using MowaInfo.ProtoSocket.Codecs;
 using MowaInfo.ProtoSocket.Routing;
 using MowaInfo.ProtoSocket.Session;
@@ -47,8 +50,7 @@ namespace Server
                     pipeline.AddLast(new LoggingHandler("SRV-CONN"));
                     pipeline.AddLast(new ProtobufEncoder<Package>());
                     pipeline.AddLast(new ProtobufDecoder<Package>());
-                    var x = startUpProvider.GetService<MessageSender<Package>>();
-                    pipeline.AddLast(x);
+                    pipeline.AddLast(startUpProvider.GetService<MessageSender<Package>>());
                     pipeline.AddLast(startUpProvider.GetService<CommandRouter<CommandContext, Package>>());
                 }));
 
@@ -59,7 +61,21 @@ namespace Server
 
         private static void Main(string[] args)
         {
+            //Test.UseStartup<Startup>();
             RunServerAsync().Wait();
         }
     }
+
+    //public static class Test
+    //{
+    //    public static void UseStartup<TStartup>() where TStartup : class
+    //    {
+    //        IServiceCollection service = new ServiceCollection();
+    //        IServiceCollection startUpService = new ServiceCollection();
+    //        var configureServices = typeof(TStartup).GetMethod("ConfigureServices");
+    //        var x = Activator.CreateInstance(typeof(TStartup));
+    //        configureServices.Invoke(x, new object[] { (IServiceCollection)service, (IServiceCollection)startUpService });
+
+    //    }
+    //}
 }

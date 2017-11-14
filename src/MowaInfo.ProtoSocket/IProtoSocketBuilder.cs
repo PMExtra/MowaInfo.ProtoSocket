@@ -13,7 +13,7 @@ namespace MowaInfo.ProtoSocket
 
         IProtoSocketBuilder UseCommands(IEnumerable<Type> commandTypes);
 
-        IProtoSocketBuilder UseContainer(Type typeOfContainer);
+        IProtoSocketBuilder UsePackage(Type typeOfPackage);
 
         IServer Build();
     }

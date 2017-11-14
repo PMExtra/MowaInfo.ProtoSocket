@@ -13,18 +13,17 @@ namespace MowaInfo.ProtoSocket
         private readonly ServerBootstrap _bootstrap;
         private readonly IEnumerable<IPEndPoint> _endPoints;
 
-        public TcpServer(ServerBootstrap bootstrap, IEnumerable<string> endPoints)
+        public TcpServer(ServerBootstrap bootstrap, IEnumerable<IPEndPoint> endPoints)
         {
             _bootstrap = bootstrap;
-            _endPoints = endPoints.Select(value => new DnsEndPoint());
+            _endPoints = endPoints;
         }
 
-        public Task StartAsync()
+        public async Task StartAsync()
         {
             foreach (var endPoint in _endPoints)
             {
-            await _bootstrap.BindAsync();
-
+                await _bootstrap.BindAsync(endPoint);
             }
         }
 

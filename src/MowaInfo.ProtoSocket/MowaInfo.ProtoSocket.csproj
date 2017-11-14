@@ -40,9 +40,11 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj" />
     <ProjectReference Include="..\MowaInfo.ProtoSocket.Codecs\MowaInfo.ProtoSocket.Codecs.csproj" />
     <ProjectReference Include="..\MowaInfo.ProtoSocket.Configuration\MowaInfo.ProtoSocket.Configuration.csproj" />
-    <ProjectReference Include="..\MowaInfo.ProtoSocket.Router\MowaInfo.ProtoSocket.Router.csproj" />
+    <ProjectReference Include="..\MowaInfo.ProtoSocket.Routing\MowaInfo.ProtoSocket.Routing.csproj" />
+    <ProjectReference Include="..\MowaInfo.ProtoSocket.Session\MowaInfo.ProtoSocket.Session.csproj" />
   </ItemGroup>
 
 </Project>

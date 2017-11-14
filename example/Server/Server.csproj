@@ -16,7 +16,7 @@
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Configuration\MowaInfo.ProtoSocket.Configuration.csproj" />
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Routing\MowaInfo.ProtoSocket.Routing.csproj" />
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Session\MowaInfo.ProtoSocket.Session.csproj" />
-    <ProjectReference Include="..\model\Messages\Messages.csproj" />
+    <ProjectReference Include="..\RedisServer\RedisServer.csproj" />
   </ItemGroup>
 
 </Project>

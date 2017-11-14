@@ -31,6 +31,11 @@ namespace MowaInfo.ProtoSocket
             throw new NotImplementedException();
         }
 
+        public IProtoSocketBuilder UsePackage(Type typeOfPackage)
+        {
+            throw new NotImplementedException();
+        }
+
         public IServer Build()
         {
             var bossGroup = new MultithreadEventLoopGroup(1);
@@ -53,8 +58,8 @@ namespace MowaInfo.ProtoSocket
                         pipeline.AddLast("tls", new TlsHandler(settings));
                     }
                     pipeline.AddLast(new LoggingHandler("SRV-CONN"));
-                    pipeline.AddLast(new ProtobufEncoder<MessageContainer>());
-                    pipeline.AddLast(new ProtobufDecoder<MessageContainer>());
+                    pipeline.AddLast(new ProtobufEncoder<Package>());
+                    pipeline.AddLast(new ProtobufDecoder<Package>());
                     pipeline.AddLast(new GatewaySetupHandler(Provider.CreateScope()));
                     pipeline.AddLast(new ClientCertHandler());
                     pipeline.AddLast(new GatewayCommandRouter(Services));
