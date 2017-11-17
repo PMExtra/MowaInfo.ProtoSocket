@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetty.Handlers" Version="0.4.6" />
+    <PackageReference Include="DotNetty.Handlers" Version="0.4.7" />
   </ItemGroup>
 
   <ItemGroup>

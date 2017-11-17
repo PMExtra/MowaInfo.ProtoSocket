@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MowaInfo.ProtoSocket.Abstract
+namespace MowaInfo.ProtoSocket.Commands
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public abstract class CommandFilterAttribute : Attribute, ICommandFilter
+    public abstract class CommandFilterAttribute : Attribute
     {
         public int Order { get; set; }
+
+        public virtual bool Await { get; protected set; } = true;
 
         public abstract Task OnCommandExecuting(ICommandContext context);
 

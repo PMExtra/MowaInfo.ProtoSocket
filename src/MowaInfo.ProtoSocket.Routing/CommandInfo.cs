@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using MowaInfo.ProtoSocket.Abstract;
+using MowaInfo.ProtoSocket.Commands;
 
 namespace MowaInfo.ProtoSocket.Routing
 {
@@ -13,5 +13,7 @@ namespace MowaInfo.ProtoSocket.Routing
         public CommandFilterAttribute[] Filters { get; set; }
 
         public MethodInfo Invoker { get; set; }
+
+        public bool IsSynchronized { get; set; }
     }
 }

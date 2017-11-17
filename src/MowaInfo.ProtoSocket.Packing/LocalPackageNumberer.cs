@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-using Generator;
+using MowaInfo.ProtoSocket.Abstract;
 
 namespace MowaInfo.ProtoSocket.Packing
 {

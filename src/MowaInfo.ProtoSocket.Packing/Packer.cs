@@ -1,5 +1,4 @@
-﻿using System;
-using MowaInfo.ProtoSocket.Abstract;
+﻿using MowaInfo.ProtoSocket.Abstract;
 
 namespace MowaInfo.ProtoSocket.Packing
 {

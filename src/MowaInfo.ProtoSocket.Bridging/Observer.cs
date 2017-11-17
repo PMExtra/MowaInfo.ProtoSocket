@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using MowaInfo.ProtoSocket.Abstract;
+using MowaInfo.ProtoSocket.Packing;
 using MowaInfo.RedisContext.Core;
 using ProtoBuf;
 using StackExchange.Redis;
@@ -17,7 +18,7 @@ namespace MowaInfo.ProtoSocket.Bridging
         {
         }
 
-        public Observer(String channel) : base(channel)
+        public Observer(string channel) : base(channel)
         {
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
+using MowaInfo.ProtoSocket.Commands;
 
 namespace MowaInfo.ProtoSocket.Routing
 {
@@ -16,26 +16,51 @@ namespace MowaInfo.ProtoSocket.Routing
             return services.AddScoped<CommandRouter<TCommandContext, TPackage>>();
         }
 
-        public static IServiceCollection AddCommand(this IServiceCollection services, Type assemblyMarkerType)
-        {
-            return AddCommand(services, assemblyMarkerType.GetTypeInfo().Assembly);
-        }
-
-        public static IServiceCollection AddCommand(this IServiceCollection services, Assembly assembliesToScan)
+        public static IServiceCollection AddCommands(this IServiceCollection services, params Assembly[] assembliesToScan)
         {
 #if NETSTANDARD1_3
-            var commandTypes = assembliesToScan.ExportedTypes.Where(type => type.GetInterfaces()
-                .Any(@interface => @interface.GetTypeInfo().IsGenericType && @interface.GetGenericTypeDefinition() == typeof(ICommand<>)));
+            var commandTypes = assembliesToScan
+                .SelectMany(assembly => assembly.ExportedTypes.Where(type => type.GetInterfaces()
+                    .Any(@interface => @interface.GetTypeInfo().IsGenericType && @interface.GetGenericTypeDefinition() == typeof(ICommand<>))))
+                .ToArray();
 #else
-            var commandTypes = assembliesToScan.ExportedTypes.Where(type => type.GetInterfaces()
-                .Any(@interface => @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(ICommand<>)));
+            var commandTypes = assembliesToScan
+                .SelectMany(assembly => assembly.ExportedTypes.Where(type => type.GetInterfaces()
+                    .Any(@interface => @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(ICommand<>))))
+                .ToArray();
 #endif
-            var enumerable = commandTypes as Type[] ?? commandTypes.ToArray();
-            foreach (var commandType in enumerable)
+            foreach (var commandType in commandTypes)
             {
                 services.AddScoped(commandType);
             }
-            services.AddScoped(_ => new CommandResolver(enumerable));
+            services.AddSingleton(new CommandResolver(commandTypes));
+            return services;
+        }
+
+        public static IServiceCollection AddExceptionHandler(this IServiceCollection services, Type handlerType)
+        {
+            services.AddScoped(typeof(IExceptionHandler), handlerType);
+            return services;
+        }
+
+        public static IServiceCollection AddExceptionHandlers(this IServiceCollection services, params Type[] handlerTypes)
+        {
+            foreach (var handler in handlerTypes)
+            {
+                services.AddScoped(handler);
+            }
+            return services;
+        }
+
+        public static IServiceCollection AddExceptionHandlers(this IServiceCollection services, params Assembly[] assembliesToScan)
+        {
+            var handlers = assembliesToScan
+                .SelectMany(assembly => assembly.ExportedTypes.Where(type => typeof(IExceptionHandler).IsAssignableFrom(type)))
+                .ToArray();
+            foreach (var handler in handlers)
+            {
+                services.AddScoped(handler);
+            }
             return services;
         }
     }

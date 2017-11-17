@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using MowaInfo.ProtoSocket.Abstract;
 
-namespace MowaInfo.ProtoSocket.Abstract
+namespace MowaInfo.ProtoSocket.Session
 {
     public abstract class SessionFactory<T> : ISessionFactory
         where T : ISession

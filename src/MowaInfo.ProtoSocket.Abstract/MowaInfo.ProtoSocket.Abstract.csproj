@@ -15,19 +15,4 @@
     <PackageTags>MowaInfo socket protobuf</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <Version>1.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection.TypeExtensions">
-      <Version>4.4.0</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <Version>1.1.1</Version>
-    </PackageReference>
-  </ItemGroup>
-
 </Project>

@@ -2,10 +2,12 @@
 
 namespace MowaInfo.ProtoSocket.Abstract
 {
-    public interface IMessageSender
+    public interface IChannel
     {
         TaskCompletionSource<IPackage> Send<T>(T message) where T : IMessage;
 
         TaskCompletionSource<IPackage> Reply<T>(ulong id, T message) where T : IMessage;
+
+        void Close();
     }
 }

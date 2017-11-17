@@ -1,4 +1,4 @@
-﻿namespace Generator
+﻿namespace MowaInfo.ProtoSocket.Abstract
 {
     public interface IPackageNumberer
     {

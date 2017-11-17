@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using MowaInfo.ProtoSocket.Abstract;
+using MowaInfo.ProtoSocket.Commands;
 
 namespace MowaInfo.ProtoSocket.Routing
 {
     internal class CommandResolver
     {
-        private readonly IReadOnlyDictionary<int, CommandInfo[]> _commandsByCommandType;
+        private readonly IReadOnlyDictionary<int, CommandInfo[]> _commandsByMessageType;
 
         public CommandResolver(IEnumerable<Type> commandTypes)
         {
             var commands = new Dictionary<int, List<CommandInfo>>();
 
-            foreach (var type in commandTypes)
+            foreach (var type in commandTypes.OrderBy(type => type.GetOrder()))
             {
 #if NETSTANDARD1_3
-                var iCommands = type.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>)).ToArray();
+                var iCommands = type.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>));
 #else
-                var iCommands = type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>)).ToArray();
+                var iCommands = type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>));
 #endif
-                Debug.Assert(iCommands.Any());
                 foreach (var iCommand in iCommands)
                 {
                     var messageClass = iCommand.GenericTypeArguments.Single();
@@ -38,6 +37,7 @@ namespace MowaInfo.ProtoSocket.Routing
                     {
                         CommandClass = type,
 #if NETSTANDARD1_3
+                        IsSynchronized = type.GetTypeInfo().GetCustomAttribute<SynchronizeAttribute>()?.Synchronized ?? false,
                         Filters = type.GetTypeInfo().GetCustomAttributes<CommandFilterAttribute>()
                             .OrderBy(filter => filter.Order)
                             .ToArray(),
@@ -45,6 +45,7 @@ namespace MowaInfo.ProtoSocket.Routing
                             .OrderBy(filter => filter.Order)
                             .ToArray(),
 #else
+                        IsSynchronized = type.GetCustomAttribute<SynchronizeAttribute>()?.Synchronized ?? false,
                         Filters = type.GetCustomAttributes<CommandFilterAttribute>()
                             .OrderBy(filter => filter.Order)
                             .ToArray(),
@@ -57,12 +58,12 @@ namespace MowaInfo.ProtoSocket.Routing
                 }
             }
 
-            _commandsByCommandType = commands.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToArray());
+            _commandsByMessageType = commands.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToArray());
         }
 
         public IEnumerable<CommandInfo> CommandsOfMessageType(int messageType)
         {
-            return _commandsByCommandType[messageType];
+            return _commandsByMessageType[messageType];
         }
 
         [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]

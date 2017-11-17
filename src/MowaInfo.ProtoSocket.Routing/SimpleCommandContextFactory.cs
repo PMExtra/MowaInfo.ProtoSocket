@@ -1,4 +1,4 @@
-﻿using MowaInfo.ProtoSocket.Abstract;
+﻿using MowaInfo.ProtoSocket.Commands;
 
 namespace MowaInfo.ProtoSocket.Routing
 {

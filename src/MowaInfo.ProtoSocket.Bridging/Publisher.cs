@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Generator;
 using MowaInfo.ProtoSocket.Abstract;
 using MowaInfo.RedisContext.Core;
 using ProtoBuf;

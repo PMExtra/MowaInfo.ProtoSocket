@@ -22,7 +22,7 @@ namespace MowaInfo.ProtoSocket.Session
         public override void ChannelInactive(IChannelHandlerContext context)
         {
             context.Channel.GetAttribute(AttributeKey<ISession>.ValueOf(nameof(_session))).Remove();
-            base.ChannelActive(context);
+            base.ChannelInactive(context);
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MowaInfo.ProtoSocket.Abstract;
-
-#if NETSTANDARD1_3
-using System.Reflection;
-#endif
+using MowaInfo.ProtoSocket.Commands;
+using MowaInfo.ProtoSocket.Packing;
+using IChannel = MowaInfo.ProtoSocket.Abstract.IChannel;
 
 namespace MowaInfo.ProtoSocket.Routing
 {
@@ -16,28 +16,27 @@ namespace MowaInfo.ProtoSocket.Routing
         where TPackage : IPackage
         where TContext : ICommandContext
     {
+        private readonly IChannel _channel;
         private readonly IEnumerable<IExceptionHandler> _exceptionHandlers;
         private readonly IEnumerable<ICommandFilter> _filters;
-
-        private readonly IMessageSender _sender;
         private readonly ILogger _logger;
         private readonly IServiceProvider _provider;
         private IServiceScope _scope;
 
         private ISession _session;
 
-        public CommandRouter(IServiceCollection services, ISession session, IMessageSender sender,
+        public CommandRouter(IServiceCollection services, ISession session, IChannel channel,
             IEnumerable<ICommandFilter> filters, IEnumerable<IExceptionHandler> exceptionHandlers, ILogger<CommandRouter<TContext, TPackage>> logger)
         {
-            _filters = filters;
-            _exceptionHandlers = exceptionHandlers;
+            _filters = filters.OrderBy(filter => filter.Order).ToArray();
+            _exceptionHandlers = exceptionHandlers.OrderBy(handler => handler.GetType().GetOrder()).ToArray();
 
             _session = session;
-            _sender = sender;
+            _channel = channel;
             _logger = logger;
 
             services.AddSingleton(session);
-            services.AddSingleton(sender);
+            services.AddSingleton(channel);
             _provider = services.BuildServiceProvider(true);
         }
 
@@ -45,55 +44,87 @@ namespace MowaInfo.ProtoSocket.Routing
         {
             _scope = _provider.CreateScope();
             var services = _scope.ServiceProvider;
-            var _resolver = services.GetService<CommandResolver>();
-            foreach (var commandInfo in _resolver.CommandsOfMessageType(package.MessageType))
+            var resolver = services.GetService<CommandResolver>();
+            foreach (var commandInfo in resolver.CommandsOfMessageType(package.MessageType))
             {
                 var command = services.GetRequiredService(commandInfo.CommandClass);
-                var commandContext = services.GetService<ICommandContext>();
+                var commandContext = services.GetRequiredService<ICommandContext>();
                 commandContext.RequestServices = services;
                 commandContext.Session = _session;
                 commandContext.Request = package;
-                var task = Task.Run(async () =>
+                var awaiter = Task.Run(async () =>
                 {
                     await _session.LoadAsync();
-                    foreach (var filter in _filters)
+                    try
                     {
+                        foreach (var filter in _filters)
+                        {
+                            commandContext.RequestAborted.ThrowIfCancellationRequested();
+                            var task = filter.OnCommandExecuting(commandContext);
+                            if (filter.Await)
+                            {
+                                await task;
+                            }
+                        }
+                        foreach (var filter in commandInfo.Filters)
+                        {
+                            commandContext.RequestAborted.ThrowIfCancellationRequested();
+                            var task = filter.OnCommandExecuting(commandContext);
+                            if (filter.Await)
+                            {
+                                await task;
+                            }
+                        }
                         commandContext.RequestAborted.ThrowIfCancellationRequested();
-                        await filter.OnCommandExecuting(commandContext);
+                        await (Task)commandInfo.Invoker.Invoke(command, new object[] { commandContext, package.GetMessage() });
+                        foreach (var filter in commandInfo.Filters)
+                        {
+                            commandContext.RequestAborted.ThrowIfCancellationRequested();
+                            var task = filter.OnCommandExecuted(commandContext);
+                            if (filter.Await)
+                            {
+                                await task;
+                            }
+                        }
+                        foreach (var filter in _filters)
+                        {
+                            commandContext.RequestAborted.ThrowIfCancellationRequested();
+                            var task = filter.OnCommandExecuted(commandContext);
+                            if (filter.Await)
+                            {
+                                await task;
+                            }
+                        }
                     }
-                    foreach (var filter in commandInfo.Filters)
+                    catch (Exception exception)
                     {
-                        commandContext.RequestAborted.ThrowIfCancellationRequested();
-                        await filter.OnCommandExecuting(commandContext);
-                    }
-                    commandContext.RequestAborted.ThrowIfCancellationRequested();
-                    await (Task)commandInfo.Invoker.Invoke(command, new object[] { commandContext, package.GetMessage() });
-                    foreach (var filter in commandInfo.Filters)
-                    {
-                        commandContext.RequestAborted.ThrowIfCancellationRequested();
-                        await filter.OnCommandExecuted(commandContext);
-                    }
-                    foreach (var filter in _filters)
-                    {
-                        commandContext.RequestAborted.ThrowIfCancellationRequested();
-                        await filter.OnCommandExecuting(commandContext);
+                        var solved = false;
+                        foreach (var filter in commandInfo.ExceptionHandlers)
+                        {
+                            if (filter.HandleExceptionAsync(exception).Result)
+                            {
+                                solved = true;
+                            }
+                        }
+                        foreach (var filter in _exceptionHandlers)
+                        {
+                            if (filter.HandleExceptionAsync(exception).Result)
+                            {
+                                solved = true;
+                            }
+                        }
+                        if (!solved)
+                        {
+                            throw;
+                        }
                     }
                     _session = commandContext.Session;
                     await _session.CommitAsync();
-                });
-                task.Wait(commandContext.RequestAborted);
-                task.Exception?.Handle(exception =>
+                }, commandContext.RequestAborted).GetAwaiter();
+                if (commandInfo.IsSynchronized)
                 {
-                    foreach (var filter in commandInfo.ExceptionHandlers)
-                    {
-                        if (filter.HandleException(commandContext, exception).Result) return true;
-                    }
-                    foreach (var filter in _exceptionHandlers)
-                    {
-                        if (filter.HandleException(commandContext, exception).Result) return true;
-                    }
-                    return false;
-                });
+                    awaiter.GetResult();
+                }
             }
         }
 
