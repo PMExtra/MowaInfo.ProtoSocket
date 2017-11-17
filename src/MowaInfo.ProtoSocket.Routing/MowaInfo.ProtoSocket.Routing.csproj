@@ -6,12 +6,12 @@
     <Description>The command and router of MowaInfo Protocol Buffer Socket. It's a partial of MowaInfo.ProtoSocket.</Description>
     <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
     <PackageLicenseUrl>https://choosealicense.com/licenses/gpl-3.0</PackageLicenseUrl>
-    <Version>0.2.0-alpha</Version>
+    <Version>1.0.0-beta</Version>
     <Authors>PM Extra</Authors>
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</PackageProjectUrl>
     <PackageTags>MowaInfo socket protobuf</PackageTags>
   </PropertyGroup>
 

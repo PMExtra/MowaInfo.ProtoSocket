@@ -11,7 +11,7 @@
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/PMExtra/MowaInfo.ProtoSocket</PackageProjectUrl>
     <PackageTags>MowaInfo socket protobuf</PackageTags>
   </PropertyGroup>
 
