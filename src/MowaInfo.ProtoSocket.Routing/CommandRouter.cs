@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetty.Transport.Channels;
@@ -21,7 +22,10 @@ namespace MowaInfo.ProtoSocket.Routing
         private readonly ILogger _logger;
         private readonly IServiceProvider _services;
 
-        public CommandRouter(IServiceProvider services, CommandResolver commandResolver, IEnumerable<ICommandFilter> filters, IEnumerable<IExceptionHandler> exceptionHandlers,
+        private readonly List<Task> _tasks = new List<Task>();
+
+        [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
+        public CommandRouter(IServiceCollection services, CommandResolver commandResolver, IEnumerable<ICommandFilter> filters, IEnumerable<IExceptionHandler> exceptionHandlers,
             ILogger<CommandRouter<TContext, TPackage>> logger)
         {
             _filters = filters.OrderBy(filter => filter.Order).ToArray();
@@ -30,7 +34,7 @@ namespace MowaInfo.ProtoSocket.Routing
             _logger = logger;
             _commandResolver = commandResolver;
 
-            _services = services;
+            _services = services.BuildServiceProvider(true);
         }
 
         protected override void ChannelRead0(IChannelHandlerContext context, TPackage package)
@@ -43,84 +47,101 @@ namespace MowaInfo.ProtoSocket.Routing
                 var commandContext = services.GetRequiredService<ICommandContext>();
                 commandContext.RequestServices = services;
                 commandContext.Request = package;
-                var awaiter = Task.Run(async () =>
-                {
-                    try
+                var task = Task.Run(async () =>
                     {
-                        foreach (var filter in _filters)
+                        try
                         {
-                            commandContext.RequestAborted.ThrowIfCancellationRequested();
-                            var task = filter.OnCommandExecuting(commandContext);
-                            if (filter.Await)
+                            foreach (var filter in _filters)
                             {
-                                await task;
+                                commandContext.RequestAborted.ThrowIfCancellationRequested();
+                                var filterTask = filter.OnCommandExecuting(commandContext);
+                                if (filter.Await)
+                                {
+                                    await filterTask;
+                                }
+                            }
+                            foreach (var filter in commandInfo.Filters)
+                            {
+                                commandContext.RequestAborted.ThrowIfCancellationRequested();
+                                var filterTask = filter.OnCommandExecuting(commandContext);
+                                if (filter.Await)
+                                {
+                                    await filterTask;
+                                }
+                            }
+                            try
+                            {
+                                commandContext.RequestAborted.ThrowIfCancellationRequested();
+                                await (Task)commandInfo.Invoker.Invoke(command, new object[] { commandContext, package.GetMessage() });
+                            }
+                            catch (Exception exception)
+                            {
+                                var solved = false;
+                                foreach (var filter in commandInfo.ExceptionHandlers)
+                                {
+                                    if (filter.HandleExceptionAsync(commandContext, exception).Result)
+                                    {
+                                        solved = true;
+                                    }
+                                }
+                                if (!solved)
+                                {
+                                    throw;
+                                }
+                            }
+                            foreach (var filter in commandInfo.Filters)
+                            {
+                                commandContext.RequestAborted.ThrowIfCancellationRequested();
+                                var filterTask = filter.OnCommandExecuted(commandContext);
+                                if (filter.Await)
+                                {
+                                    await filterTask;
+                                }
+                            }
+                            foreach (var filter in _filters)
+                            {
+                                commandContext.RequestAborted.ThrowIfCancellationRequested();
+                                var filterTask = filter.OnCommandExecuted(commandContext);
+                                if (filter.Await)
+                                {
+                                    await filterTask;
+                                }
                             }
                         }
-                        foreach (var filter in commandInfo.Filters)
+                        catch (Exception exception)
                         {
-                            commandContext.RequestAborted.ThrowIfCancellationRequested();
-                            var task = filter.OnCommandExecuting(commandContext);
-                            if (filter.Await)
+                            var solved = false;
+                            foreach (var filter in _exceptionHandlers)
                             {
-                                await task;
+                                if (filter.HandleExceptionAsync(commandContext, exception).Result)
+                                {
+                                    solved = true;
+                                }
+                            }
+                            if (!solved)
+                            {
+                                throw;
                             }
                         }
-                        commandContext.RequestAborted.ThrowIfCancellationRequested();
-                        await (Task)commandInfo.Invoker.Invoke(command, new object[] { commandContext, package.GetMessage() });
-                        foreach (var filter in commandInfo.Filters)
-                        {
-                            commandContext.RequestAborted.ThrowIfCancellationRequested();
-                            var task = filter.OnCommandExecuted(commandContext);
-                            if (filter.Await)
-                            {
-                                await task;
-                            }
-                        }
-                        foreach (var filter in _filters)
-                        {
-                            commandContext.RequestAborted.ThrowIfCancellationRequested();
-                            var task = filter.OnCommandExecuted(commandContext);
-                            if (filter.Await)
-                            {
-                                await task;
-                            }
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        var solved = false;
-                        foreach (var filter in commandInfo.ExceptionHandlers)
-                        {
-                            if (filter.HandleExceptionAsync(exception).Result)
-                            {
-                                solved = true;
-                            }
-                        }
-                        foreach (var filter in _exceptionHandlers)
-                        {
-                            if (filter.HandleExceptionAsync(exception).Result)
-                            {
-                                solved = true;
-                            }
-                        }
-                        if (!solved)
-                        {
-                            throw;
-                        }
-                    }
-                }, commandContext.RequestAborted).ContinueWith();
+                    }, commandContext.RequestAborted);
+                _tasks.Add(task);
                 if (commandInfo.Synchronized)
                 {
-                    awaiter.GetResult();
+                    task.GetAwaiter().GetResult();
+                    scope.Dispose();
+                }
+                else
+                {
+                    task.ContinueWith(t =>
+                    {
+                        if (t.IsFaulted)
+                        {
+                            ExceptionCaught(context, t.Exception);
+                        }
+                        scope.Dispose();
+                    });
                 }
             }
-        }
-
-        public override void ChannelReadComplete(IChannelHandlerContext context)
-        {
-            context.Flush();
-            base.ChannelReadComplete(context);
-            _scope?.Dispose();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
