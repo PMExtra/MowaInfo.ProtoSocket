@@ -37,17 +37,30 @@ namespace MowaInfo.ProtoSocket.Routing
             return services;
         }
 
+        public static IServiceCollection AddExceptionHandler<T>(this IServiceCollection services) 
+            where T : IExceptionHandler, new()
+        {
+            return services.AddExceptionHandler(typeof(T));
+        }
+
         public static IServiceCollection AddExceptionHandler(this IServiceCollection services, Type handlerType)
         {
-            services.AddScoped(typeof(IExceptionHandler), handlerType);
-            return services;
+            if (!typeof(IExceptionHandler).IsAssignableFrom(handlerType))
+            {
+                throw new ArgumentException();
+            }
+            return services.AddSingleton(typeof(IExceptionHandler), Activator.CreateInstance(handlerType));
         }
 
         public static IServiceCollection AddExceptionHandlers(this IServiceCollection services, params Type[] handlerTypes)
         {
             foreach (var handler in handlerTypes)
             {
-                services.AddScoped(handler);
+                if (!typeof(IExceptionHandler).IsAssignableFrom(handler))
+                {
+                    throw new ArgumentException();
+                }
+                services.AddSingleton(typeof(IExceptionHandler), handler);
             }
             return services;
         }
@@ -59,7 +72,7 @@ namespace MowaInfo.ProtoSocket.Routing
                 .ToArray();
             foreach (var handler in handlers)
             {
-                services.AddScoped(handler);
+                services.AddSingleton(typeof(IExceptionHandler), handler);
             }
             return services;
         }
