@@ -8,6 +8,6 @@ namespace MowaInfo.ProtoSocket.Commands
     {
         public int Order { get; set; }
 
-        public abstract Task<bool> HandleExceptionAsync(Exception exception);
+        public abstract Task<bool> HandleExceptionAsync(ICommandContext commandContext, Exception exception);
     }
 }

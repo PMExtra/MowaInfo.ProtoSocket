@@ -5,6 +5,6 @@ namespace MowaInfo.ProtoSocket.Commands
 {
     public interface IExceptionHandler
     {
-        Task<bool> HandleExceptionAsync(Exception exception);
+        Task<bool> HandleExceptionAsync(ICommandContext commandContext, Exception exception);
     }
 }
