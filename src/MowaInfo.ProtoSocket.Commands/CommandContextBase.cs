@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using MowaInfo.ProtoSocket.Abstract;
 
 namespace MowaInfo.ProtoSocket.Commands
@@ -18,7 +19,7 @@ namespace MowaInfo.ProtoSocket.Commands
 
         public CancellationToken RequestAborted { get; set; }
 
-        public ISession Session { get; set; }
+        public ISession Session => RequestServices.GetService<ISession>();
 
         public virtual void Abort()
         {

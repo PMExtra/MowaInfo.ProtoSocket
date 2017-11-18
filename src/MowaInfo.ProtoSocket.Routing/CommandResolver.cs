@@ -37,7 +37,7 @@ namespace MowaInfo.ProtoSocket.Routing
                     {
                         CommandClass = type,
 #if NETSTANDARD1_3
-                        IsSynchronized = type.GetTypeInfo().GetCustomAttribute<SynchronizeAttribute>()?.Synchronized ?? false,
+                        Synchronized = type.GetTypeInfo().GetCustomAttribute<SynchronizeAttribute>()?.Synchronized ?? false,
                         Filters = type.GetTypeInfo().GetCustomAttributes<CommandFilterAttribute>()
                             .OrderBy(filter => filter.Order)
                             .ToArray(),
@@ -45,7 +45,7 @@ namespace MowaInfo.ProtoSocket.Routing
                             .OrderBy(filter => filter.Order)
                             .ToArray(),
 #else
-                        IsSynchronized = type.GetCustomAttribute<SynchronizeAttribute>()?.Synchronized ?? false,
+                        Synchronized = type.GetCustomAttribute<SynchronizeAttribute>()?.Synchronized ?? false,
                         Filters = type.GetCustomAttributes<CommandFilterAttribute>()
                             .OrderBy(filter => filter.Order)
                             .ToArray(),

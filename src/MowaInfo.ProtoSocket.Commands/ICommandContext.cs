@@ -18,7 +18,7 @@ namespace MowaInfo.ProtoSocket.Commands
 
         CancellationToken RequestAborted { get; set; }
 
-        ISession Session { get; set; }
+        ISession Session { get; }
 
         void Abort();
 

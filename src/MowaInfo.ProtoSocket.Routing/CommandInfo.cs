@@ -14,6 +14,6 @@ namespace MowaInfo.ProtoSocket.Routing
 
         public MethodInfo Invoker { get; set; }
 
-        public bool IsSynchronized { get; set; }
+        public bool Synchronized { get; set; }
     }
 }
