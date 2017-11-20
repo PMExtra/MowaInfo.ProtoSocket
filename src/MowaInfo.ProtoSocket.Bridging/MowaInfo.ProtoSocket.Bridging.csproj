@@ -16,11 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MowaInfo.RedisContext" Version="0.2.0-beta2" />
     <PackageReference Include="protobuf-net" Version="2.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MowaInfo.RedisContext\src\MowaInfo.RedisContext\MowaInfo.RedisContext.csproj" />
     <ProjectReference Include="..\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj" />
     <ProjectReference Include="..\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj" />
   </ItemGroup>
