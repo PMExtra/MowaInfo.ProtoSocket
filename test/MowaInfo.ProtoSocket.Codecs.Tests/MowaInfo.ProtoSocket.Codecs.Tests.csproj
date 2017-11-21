@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Abstract\MowaInfo.ProtoSocket.Abstract.csproj" />
     <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Codecs\MowaInfo.ProtoSocket.Codecs.csproj" />
+    <ProjectReference Include="..\..\src\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj" />
   </ItemGroup>
 
 </Project>

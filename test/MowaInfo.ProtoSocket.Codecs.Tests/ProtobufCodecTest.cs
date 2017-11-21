@@ -1,19 +1,23 @@
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels.Embedded;
+using MowaInfo.ProtoSocket.Abstract;
 using MowaInfo.ProtoSocket.Codecs.Tests.Models;
+using MowaInfo.ProtoSocket.Packing;
 using Xunit;
 
 namespace MowaInfo.ProtoSocket.Codecs.Tests
 {
     public class ProtobufCodecTest
     {
+        private readonly IPacker<MessagePackage> _packer = new Packer<MessagePackage>();
+
         [Theory]
         [InlineData("Hello world!")]
         public void NormalTest(string testContent)
         {
-            var channel = new EmbeddedChannel(new ProtobufEncoder<MessageContainer>(), new ProtobufDecoder<MessageContainer>());
+            var channel = new EmbeddedChannel(new ProtobufEncoder<MessagePackage>(), new ProtobufDecoder<MessagePackage>());
 
-            var content = new MessageContainer(new TestMessage { TestContent = testContent });
+            var content = _packer.CreatePackage(new TestMessage { TestContent = testContent });
             Assert.True(channel.WriteOutbound(content));
 
             var buffer = channel.ReadOutbound<IByteBuffer>();
@@ -26,10 +30,10 @@ namespace MowaInfo.ProtoSocket.Codecs.Tests
             var inputBuffer = Unpooled.WrappedBuffer(data);
             Assert.True(channel.WriteInbound(inputBuffer));
 
-            var container = channel.ReadInbound<MessageContainer>();
+            var container = channel.ReadInbound<MessagePackage>();
             Assert.NotNull(container);
-            Assert.Equal(container.MessageType, MessageType.Test);
-            Assert.Equal(container.Test.TestContent, testContent);
+            Assert.Equal(MessageType.Test, container.MessageType);
+            Assert.Equal(testContent, container.Test.TestContent);
 
             Assert.False(channel.Finish());
         }
@@ -38,9 +42,9 @@ namespace MowaInfo.ProtoSocket.Codecs.Tests
         [InlineData("Hello world!")]
         public void SplitedTest(string testContent)
         {
-            var channel = new EmbeddedChannel(new ProtobufEncoder<MessageContainer>(), new ProtobufDecoder<MessageContainer>());
+            var channel = new EmbeddedChannel(new ProtobufEncoder<MessagePackage>(), new ProtobufDecoder<MessagePackage>());
 
-            var content = new MessageContainer(new TestMessage { TestContent = testContent });
+            var content = _packer.CreatePackage(new TestMessage { TestContent = testContent });
             Assert.True(channel.WriteOutbound(content));
 
             var buffer = channel.ReadOutbound<IByteBuffer>();
@@ -55,10 +59,10 @@ namespace MowaInfo.ProtoSocket.Codecs.Tests
             Assert.False(channel.WriteInbound(inputBuffer1));
             Assert.True(channel.WriteInbound(inputBuffer2));
 
-            var container = channel.ReadInbound<MessageContainer>();
+            var container = channel.ReadInbound<MessagePackage>();
             Assert.NotNull(container);
-            Assert.Equal(container.MessageType, MessageType.Test);
-            Assert.Equal(container.Test.TestContent, testContent);
+            Assert.Equal(MessageType.Test, container.MessageType);
+            Assert.Equal(testContent, container.Test.TestContent);
 
             Assert.False(channel.Finish());
         }
@@ -67,10 +71,12 @@ namespace MowaInfo.ProtoSocket.Codecs.Tests
         [InlineData("Hello world!")]
         public void CombinedTest(string testContent)
         {
-            var channel = new EmbeddedChannel(new ProtobufEncoder<MessageContainer>(), new ProtobufDecoder<MessageContainer>());
+            var channel = new EmbeddedChannel(new ProtobufEncoder<MessagePackage>(), new ProtobufDecoder<MessagePackage>());
 
-            var content1 = new MessageContainer(new TestMessage { TestContent = testContent }) { Id = 1 };
-            var content2 = new MessageContainer(new TestMessage { TestContent = testContent }) { Id = 2 };
+            var content1 = _packer.CreatePackage(new TestMessage { TestContent = testContent });
+            content1.Id = 1;
+            var content2 = _packer.CreatePackage(new TestMessage { TestContent = testContent });
+            content2.Id = 2;
             Assert.True(channel.WriteOutbound(content1));
             Assert.True(channel.WriteOutbound(content2));
 
@@ -90,16 +96,27 @@ namespace MowaInfo.ProtoSocket.Codecs.Tests
             var inputBuffer = Unpooled.WrappedBuffer(data);
             Assert.True(channel.WriteInbound(inputBuffer));
 
-            var container1 = channel.ReadInbound<MessageContainer>();
-            var container2 = channel.ReadInbound<MessageContainer>();
+            var container1 = channel.ReadInbound<MessagePackage>();
+            var container2 = channel.ReadInbound<MessagePackage>();
             Assert.NotNull(container1);
             Assert.NotNull(container2);
             Assert.True(container1.Id == 1);
-            Assert.Equal(container1.MessageType, MessageType.Test);
-            Assert.Equal(container1.Test.TestContent, testContent);
+            Assert.Equal(MessageType.Test, container1.MessageType);
+            Assert.Equal(testContent, container1.Test.TestContent);
             Assert.True(container2.Id == 2);
-            Assert.Equal(container2.MessageType, MessageType.Test);
-            Assert.Equal(container2.Test.TestContent, testContent);
+            Assert.Equal(MessageType.Test, container2.MessageType);
+            Assert.Equal(testContent, container2.Test.TestContent);
+
+            Assert.False(channel.Finish());
+        }
+
+        [Fact]
+        public void EmptyTest()
+        {
+            var channel = new EmbeddedChannel(new ProtobufEncoder<MessagePackage>(), new ProtobufDecoder<MessagePackage>());
+
+            var container = channel.ReadInbound<MessagePackage>();
+            Assert.Null(container);
 
             Assert.False(channel.Finish());
         }
