@@ -152,5 +152,14 @@ namespace MowaInfo.ProtoSocket.Routing
             Console.WriteLine(exception.StackTrace);
             context.CloseAsync();
         }
+
+        public override void ChannelInactive(IChannelHandlerContext context)
+        {
+            foreach (var destructor in _services.GetServices<IDestructor>())
+            {
+                destructor.Deinit().GetAwaiter().GetResult();
+            }
+            base.ChannelInactive(context);
+        }
     }
 }
