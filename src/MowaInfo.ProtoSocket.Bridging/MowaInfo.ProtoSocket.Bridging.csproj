@@ -25,4 +25,8 @@
     <ProjectReference Include="..\MowaInfo.ProtoSocket.Packing\MowaInfo.ProtoSocket.Packing.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.5'">
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
+  </ItemGroup>
+
 </Project>
