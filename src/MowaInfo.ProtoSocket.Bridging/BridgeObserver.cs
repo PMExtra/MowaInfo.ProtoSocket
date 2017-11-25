@@ -9,16 +9,16 @@ using StackExchange.Redis;
 
 namespace MowaInfo.ProtoSocket.Bridging
 {
-    public class Observer<T> : RedisObserver where T : IPackage
+    public class BridgeObserver<T> : RedisObserver where T : IPackage
     {
         protected Dictionary<Type, List<Delegate>> MessageSubscribers = new Dictionary<Type, List<Delegate>>();
         protected List<Action<T>> Subscribers = new List<Action<T>>();
 
-        public Observer() : base("")
+        public BridgeObserver() : base("")
         {
         }
 
-        public Observer(string channel) : base(channel)
+        public BridgeObserver(string channel) : base(channel)
         {
         }
 
@@ -40,7 +40,7 @@ namespace MowaInfo.ProtoSocket.Bridging
             }
         }
 
-        public virtual Observer<T> Do<TMessage>(Action<TMessage> onNext)
+        public virtual BridgeObserver<T> Do<TMessage>(Action<TMessage> onNext)
             where TMessage : IMessage
         {
             var type = typeof(TMessage);

@@ -6,12 +6,12 @@ using ProtoBuf;
 
 namespace MowaInfo.ProtoSocket.Bridging
 {
-    public class Publisher<T> : RedisPublisher where T : IPackage
+    public class BridgePublisher<T> : RedisPublisher where T : IPackage
     {
         protected readonly IPackageNumberer PackageNumberer;
         protected readonly IPacker<T> Packer;
 
-        public Publisher(IPacker<T> packer, IPackageNumberer packageNumberer) : base("")
+        public BridgePublisher(IPacker<T> packer, IPackageNumberer packageNumberer) : base("")
         {
             Packer = packer;
             PackageNumberer = packageNumberer;
