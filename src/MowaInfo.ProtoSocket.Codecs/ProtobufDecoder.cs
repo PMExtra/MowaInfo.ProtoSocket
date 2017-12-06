@@ -22,8 +22,17 @@ namespace MowaInfo.ProtoSocket.Codecs
             input.MarkReaderIndex();
             try
             {
-                var package = Serializer.DeserializeWithLengthPrefix<TPackage>(inputStream, PrefixStyle.Base128);
-                output.Add(package);
+                if (Serializer.TryReadLengthPrefix(inputStream, PrefixStyle.Base128, out var length))
+                {
+                    if (inputStream.Length - inputStream.Position >= length)
+                    {
+                        input.ResetReaderIndex();
+                        var package = Serializer.DeserializeWithLengthPrefix<TPackage>(inputStream, PrefixStyle.Base128);
+                        output.Add(package);
+                        return;
+                    }
+                }
+                input.ResetReaderIndex();
             }
             catch (EndOfStreamException)
             {
