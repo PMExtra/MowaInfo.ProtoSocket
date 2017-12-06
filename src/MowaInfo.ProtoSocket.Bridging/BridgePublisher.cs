@@ -11,7 +11,7 @@ namespace MowaInfo.ProtoSocket.Bridging
         protected readonly IPackageNumberer PackageNumberer;
         protected readonly IPacker<T> Packer;
 
-        public BridgePublisher(IPacker<T> packer, IPackageNumberer packageNumberer) : base("")
+        public BridgePublisher(IPacker<T> packer, IPackageNumberer packageNumberer)
         {
             Packer = packer;
             PackageNumberer = packageNumberer;

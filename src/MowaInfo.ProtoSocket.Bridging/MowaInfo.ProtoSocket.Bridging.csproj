@@ -16,8 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MowaInfo.RedisContext" Version="0.2.0-beta3" />
-    <PackageReference Include="protobuf-net" Version="2.3.2" />
+    <PackageReference Include="MowaInfo.RedisContext" Version="0.2.0" />
+    <PackageReference Include="protobuf-net" Version="2.3.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,10 +27,11 @@ namespace MowaInfo.ProtoSocket.Bridging
         {
         }
 
-        public BridgeObserver(IServiceProvider provider, string channel) : base(channel)
+        public BridgeObserver(IServiceProvider provider, string channel)
         {
             _provider = provider;
             Resolver = provider.GetRequiredService(typeof(ICommandResolver<>).MakeGenericType(GetType())) as ICommandResolver;
+            Channel = channel;
         }
 
         protected override void OnNext(RedisChannel channel, RedisValue message)

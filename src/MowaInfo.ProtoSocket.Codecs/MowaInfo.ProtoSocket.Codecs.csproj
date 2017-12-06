@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetty.Codecs" Version="0.4.7" />
-    <PackageReference Include="protobuf-net" Version="2.3.2" />
+    <PackageReference Include="protobuf-net" Version="2.3.3" />
   </ItemGroup>
   
 </Project>
