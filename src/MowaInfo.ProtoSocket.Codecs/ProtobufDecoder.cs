@@ -40,7 +40,6 @@ namespace MowaInfo.ProtoSocket.Codecs
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
                 throw new CodecException(exception);
             }
             finally
