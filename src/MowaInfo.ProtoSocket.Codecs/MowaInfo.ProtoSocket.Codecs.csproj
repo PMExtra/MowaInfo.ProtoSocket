@@ -6,7 +6,7 @@
     <Description>The protobuf codecs of MowaInfo Protocol Buffer Socket. It's a partial of MowaInfo.ProtoSocket.</Description>
     <Copyright>Copyright © 2017 MowaInfo. All Rights Reserved.</Copyright>
     <PackageLicenseUrl>https://choosealicense.com/licenses/gpl-3.0</PackageLicenseUrl>
-    <Version>1.0.0-beta</Version>
+    <Version>1.0.0-beta2</Version>
     <Authors>PM Extra</Authors>
     <Company>Shanghai Mowa Inforamtion Technology Co., Ltd.</Company>
     <Product>MowaInfo.ProtoSocket</Product>
