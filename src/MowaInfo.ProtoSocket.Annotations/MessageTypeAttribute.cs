@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MowaInfo.ProtoSocket.Abstract
+namespace MowaInfo.ProtoSocket.Annotations
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class MessageTypeAttribute : Attribute

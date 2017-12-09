@@ -1,36 +1,37 @@
-﻿using System.Threading.Tasks;
-using DotNetty.Transport.Channels;
+﻿using DotNetty.Transport.Channels;
 using MowaInfo.ProtoSocket.Abstract;
 using IChannel = MowaInfo.ProtoSocket.Abstract.IChannel;
 
-namespace MowaInfo.ProtoSocket.Routing
+namespace MowaInfo.ProtoSocket.Common
 {
     public class Channel<TPackage> : ChannelHandlerAdapter, IChannel
         where TPackage : IPackage
     {
+        private readonly ReplyManager<TPackage> _replyManager;
         protected readonly IPackageNumberer PackageNumberer;
 
         protected readonly IPacker<TPackage> Packer;
 
         protected IChannelHandlerContext Context;
 
-        public Channel(IPacker<TPackage> packer, IPackageNumberer packageNumberer)
+        public Channel(IPacker<TPackage> packer, IPackageNumberer packageNumberer, ReplyManager<TPackage> replyManager)
         {
             Packer = packer;
             PackageNumberer = packageNumberer;
+            _replyManager = replyManager;
         }
 
-        public virtual TaskCompletionSource<IPackage> Send<T>(T message) where T : IMessage
+        public virtual void Send<T>(T message) where T : IMessage
         {
             var package = Packer.CreatePackage(message);
-            return Send(package);
+            Send(package);
         }
 
-        public virtual TaskCompletionSource<IPackage> Reply<T>(ulong id, T message) where T : IMessage
+        public virtual void Reply<T>(ulong id, T message) where T : IMessage
         {
             var package = Packer.CreatePackage(message);
             package.ReplyId = id;
-            return Send(package);
+            Send(package);
         }
 
         public virtual void Close()
@@ -44,16 +45,14 @@ namespace MowaInfo.ProtoSocket.Routing
             base.ChannelActive(ctx);
         }
 
-        private TaskCompletionSource<IPackage> Send(TPackage package)
+        internal void Send(TPackage package)
         {
             if (package.Id == 0)
             {
                 package.Id = PackageNumberer.NextId();
             }
 
-            var source = new TaskCompletionSource<IPackage>();
             Context.WriteAndFlushAsync(package);
-            return source;
         }
     }
 }

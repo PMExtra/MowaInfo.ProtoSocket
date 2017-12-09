@@ -1,12 +1,10 @@
-﻿using System.Threading.Tasks;
-
-namespace MowaInfo.ProtoSocket.Abstract
+﻿namespace MowaInfo.ProtoSocket.Abstract
 {
     public interface IChannel
     {
-        TaskCompletionSource<IPackage> Send<T>(T message) where T : IMessage;
+        void Send<T>(T message) where T : IMessage;
 
-        TaskCompletionSource<IPackage> Reply<T>(ulong id, T message) where T : IMessage;
+        void Reply<T>(ulong id, T message) where T : IMessage;
 
         void Close();
     }

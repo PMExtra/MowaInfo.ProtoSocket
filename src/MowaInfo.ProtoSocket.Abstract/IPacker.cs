@@ -1,9 +1,9 @@
 ﻿namespace MowaInfo.ProtoSocket.Abstract
 {
-    // ReSharper disable once TypeParameterCanBeVariant
-    public interface IPacker<T>
-        where T : IPackage
+    public interface IPacker
     {
-        T CreatePackage(IMessage message);
+
+
+        IPackage CreatePackage(IDownMessage message);
     }
 }

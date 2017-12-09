@@ -5,12 +5,12 @@ namespace MowaInfo.ProtoSocket.Packing
 {
     public static class PackageExtensions
     {
-        public static IMessage GetMessage<T>(this T package) where T : IPackage
+        public static IUpMessage GetMessage(this IPackage package)
         {
-            return PackageInfo<T>.GetMessage(package);
+            return PackageInfo.GetPackageInfo(package.GetType()).GetMessage(package);
         }
 
-        public static void SetMessage<T>(this T package, IMessage message) where T : IPackage
+        internal static void SetMessage<T>(this T package, IDownMessage message) where T : IPackage
         {
             PackageInfo<T>.SetMessage(package, message);
         }

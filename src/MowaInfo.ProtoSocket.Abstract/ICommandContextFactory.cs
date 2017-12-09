@@ -1,4 +1,4 @@
-﻿namespace MowaInfo.ProtoSocket.Commands
+﻿namespace MowaInfo.ProtoSocket.Abstract
 {
     public interface ICommandContextFactory
     {

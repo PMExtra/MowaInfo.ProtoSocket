@@ -1,7 +1,8 @@
 ﻿using System;
 
-namespace MowaInfo.ProtoSocket.Commands
+namespace MowaInfo.ProtoSocket.Annotations
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class SynchronizeAttribute : Attribute
     {
         public SynchronizeAttribute(bool synchronized = true)

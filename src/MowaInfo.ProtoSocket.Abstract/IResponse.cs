@@ -1,6 +1,7 @@
 ﻿namespace MowaInfo.ProtoSocket.Abstract
 {
-    public interface IMessage
+    public interface IResponse
     {
+        
     }
 }

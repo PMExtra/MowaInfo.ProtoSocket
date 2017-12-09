@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MowaInfo.ProtoSocket.Commands
+namespace MowaInfo.ProtoSocket.Abstract
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public abstract class ExceptionHandlerAttribute : Attribute, IExceptionHandler

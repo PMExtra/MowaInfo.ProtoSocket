@@ -1,83 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
 using MowaInfo.ProtoSocket.Abstract;
 
 namespace MowaInfo.ProtoSocket.Packing.Internal
 {
     [SuppressMessage("ReSharper", "StaticMemberInGenericType")]
-    internal static class PackageInfo<T> where T : IPackage
+    internal class PackageInfo
     {
-        private static readonly IReadOnlyDictionary<int, Type> ClassesByMessageType;
-        private static readonly IReadOnlyDictionary<Type, int> MessageTypesByClass;
-        private static readonly IReadOnlyDictionary<int, PropertyInfo> PropertiesByMessageType;
+        private static readonly Dictionary<Type, PackageInfo> PackageInfos = new Dictionary<Type, PackageInfo>();
 
-        static PackageInfo()
+        public static PackageInfo GetPackageInfo(Type type)
         {
-            var properties = typeof(T)
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(property => typeof(IMessage).IsAssignableFrom(property.PropertyType))
-                .ToArray();
-
-            PropertiesByMessageType = properties
-                .ToDictionary(property => GetMessageTypeOfClass(property.PropertyType), property => property);
-
-            MessageTypesByClass = PropertiesByMessageType
-                .ToDictionary(kvp => kvp.Value.PropertyType, kvp => kvp.Key);
-
-            ClassesByMessageType = MessageTypesByClass
-                .ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+            return PackageInfos.TryGetValue(type, out var packageInfo) ? packageInfo : null;
         }
 
-        private static PropertyInfo PropertyOfMessageType(int messageType)
+        public static Type MakeUpPackage(params Type[] typesOfUpMessage)
         {
-            if (!PropertiesByMessageType.TryGetValue(messageType, out var property))
+            foreach (var type in typesOfUpMessage)
             {
-                throw new ArgumentException($"The package does not have a message of type '{messageType}'.", nameof(messageType));
+                if (!typeof(IUpMessage).IsAssignableFrom(type))
+                {
+                    throw new ArgumentException($"The type '{type.FullName}' does not derive from '{nameof(IUpMessage)}'.", nameof(typesOfUpMessage));
+                }
             }
-            return property;
+            return MakePackage(typesOfUpMessage);
         }
 
-        [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
-        private static int GetMessageTypeOfClass(Type messageClass)
+        public static Type MakeDownPackage(params Type[] typesOfDownMessage)
         {
-            var attribute = messageClass.GetTypeInfo().GetCustomAttribute<MessageTypeAttribute>();
-            if (attribute == null)
+            foreach (var type in typesOfDownMessage)
             {
-                throw new NotImplementedException($"The MessageType of type '{messageClass.Name}' has not been defined.");
+                if (!typeof(IDownMessage).IsAssignableFrom(type))
+                {
+                    throw new ArgumentException($"The type '{type.FullName}' does not derive from '{nameof(IDownMessage)}'.", nameof(typesOfDownMessage));
+                }
             }
-            return attribute.MessageType;
+            return MakePackage(typesOfDownMessage);
         }
 
-        public static IMessage GetMessage(T package)
+        private static Type MakePackage(params Type[] typesOfMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUpMessage GetMessage(IPackage package)
         {
             return (IMessage)PropertyOfMessageType(package.MessageType).GetValue(package);
         }
 
-        public static void SetMessage(T package, IMessage value)
+        public void SetMessage(IPackage package, IDownMessage value)
         {
             package.MessageType = MessageTypeOfClass(value.GetType());
             PropertyOfMessageType(package.MessageType).SetValue(package, value);
-        }
-
-        public static int MessageTypeOfClass(Type messageClass)
-        {
-            if (!MessageTypesByClass.TryGetValue(messageClass, out var messageType))
-            {
-                throw new NotImplementedException($"The MessageType of type '{messageClass.Name}' has not been defined.");
-            }
-            return messageType;
-        }
-
-        public static Type ClassOfMessageType(int messageType)
-        {
-            if (!ClassesByMessageType.TryGetValue(messageType, out var messageClass))
-            {
-                throw new ArgumentException($"The package does not have a message of type '{messageType}'.", nameof(messageType));
-            }
-            return messageClass;
         }
     }
 }
