@@ -48,12 +48,12 @@ namespace MowaInfo.ProtoSocket.Bridging
             foreach (var commandType in commandTypes)
             {
                 var scope = _provider.CreateScope();
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     var command = scope.ServiceProvider.GetRequiredService(commandType);
                     var invoker = commandType.GetMethod(nameof(IBridgeCommand<IMessage>.ExecuteAsync));
                     Debug.Assert(invoker != null, nameof(invoker) + " != null");
-                    invoker.Invoke(command, new object[] { message });
+                    await (Task)invoker.Invoke(command, new object[] { message });
                 }).ContinueWith(_ => scope.Dispose());
             }
             if (MessageSubscribers.TryGetValue(message.GetType(), out var list))
